@@ -2,5 +2,16 @@
 {% set active_page = 'index' %}
 
 {% block content %}
-<h1>yo</h1>
+
+<div id="map"></div>
+<div id="floating-panel">
+    <button id="drop" onclick="addRandomMarker();">Add Marker</button>
+</div>
+<!--<div class="dropdown">
+        <button onclick=></button>
+    </div>-->
+<script type="text/javascript" src="{{url_for('static', filename='js/map.js')}}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxGG-4DJjroDIjlVJwwltXQHTeMlilE54&callback=initMap" async
+    defer></script>
+
 {% endblock %}
