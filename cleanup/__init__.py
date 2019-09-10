@@ -3,6 +3,9 @@ from flask import Flask, session
 from flask_cors import CORS
 from flask_socketio import SocketIO
 from flask_login import LoginManager
+from flask_pymongo import PyMongo
+from bson.objectid import ObjectId
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 app.debug = True
@@ -16,7 +19,13 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+bootstrap = Bootstrap(app)
 CORS(app)
 socketio = SocketIO(app)
+
+# MongoDB
+mongo = PyMongo(app)
+print("MongoDB connected successfully")
+users = mongo.db.users
 
 from cleanup import routes

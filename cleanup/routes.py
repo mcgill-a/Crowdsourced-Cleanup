@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
+from flask_pymongo import PyMongo
 import os, json, copy, bcrypt
 import base64
 import colour
@@ -19,3 +20,4 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 @app.route('/', methods=['GET'])
 def index():
 	return render_template('index.html')
+
