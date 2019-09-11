@@ -9,7 +9,7 @@ from os.path import join
 from bson.objectid import ObjectId
 from functools import wraps
 from flask import Flask, render_template, request, redirect, jsonify, session, abort, flash, url_for
-from cleanup import app, login_manager, users
+from cleanup import app, login_manager, users, images
 from operator import itemgetter
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import configparser, logging, os, json, random, re, string, datetime, bcrypt, urllib, hashlib, bson, math
@@ -115,6 +115,16 @@ def signup():
 	else:
 		return render_template('signup.html', form=form)
 
+# Getting pin data for AJAX
+@app.route('/pins', methods=['GET'])
+def pins():
+	# Find pin from given pin id in GET arguments
+	pin_id = request.args.get('pin')
+	data = images.find_one({'_id':pin_id});
+	# If no pins can be found return 404
+	if (data is None):
+		return '404'
+	return jsonify(data)
 
 # Redirect logged out users with error message
 def is_logged_in(f):
@@ -127,6 +137,15 @@ def is_logged_in(f):
 			return redirect(url_for('login'))
 	return wrap
 
+def get_img_metadata(imageFile, callback):
+	# Get metadata form of image
+	image = Image(imageFile)
+
+	# Extract the location from image metadata
+	latitude = image.gps_latitude
+	longitude = image.gps_longitude
+	datetime = image.datetime_original
+	callback(latitude, longitude, datetime)
 
 @app.route('/logout')
 def logout():
