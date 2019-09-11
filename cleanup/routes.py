@@ -20,7 +20,6 @@ from json import dumps
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from .forms import SignupForm, LoginForm, UploadForm
 
-
 @app.route('/', methods=['GET'])
 def index():
 	return render_template('index.html')
@@ -120,11 +119,17 @@ def signup():
 def pins():
 	# Find pin from given pin id in GET arguments
 	pin_id = request.args.get('pin')
-	data = images.find_one({'_id':pin_id});
-	# If no pins can be found return 404
-	if (data is None):
+	# If a specific pin is requested...
+	if not pin_id == None:
+		# ... Search through the incidents until the right one is found
+		for incident in incidents:
+			if str(incident['id']) == pin_id:
+				return jsonify(incident)
+		# If none are found return 404
 		return '404'
-	return jsonify(data)
+	else:
+		# If no specific pin is requested, return them all
+		return jsonify(incidents)
 
 # Redirect logged out users with error message
 def is_logged_in(f):
@@ -191,6 +196,7 @@ def upload():
 					'lat' : lat,
 					'lon' : lon,
 					'date_created' : date_created,
+					'date_cleaned' : date_cleaned,
 					'value' : value,
 					'cleaner' : cleaner,
 					'incident_type' : incident_type
