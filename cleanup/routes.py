@@ -213,7 +213,7 @@ def upload():
 				upload_form.image.data = ""
 
 			
-			return render_template('upload.html', current_user=current_user, upload_form=upload_form, incidents=incidents)
+			return render_template('upload.html', current_user=current_user, upload_form=upload_form)
 		else:
 			flash("Access restricted. You do not have permission to do that", 'danger')
 			return redirect(url_for('index'))
@@ -245,10 +245,16 @@ def store_uploaded_image(form_pic, profile_user_id):
 
 	picture_path = os.path.join(app.root_path, 'static','resources','user-content', profile_user_id)
 
+	
+
+
 	if not os.path.exists(picture_path):
 		os.makedirs(picture_path)
 
-	final_location = picture_path + '/' + str(get_next_filename(picture_path)) + ext
+	next_file_name = str(get_next_filename(picture_path))
+
+	final_location = picture_path + '/' + next_file_name + ext
+	relative_path = os.path.join('static','resources','user-content', profile_user_id, (next_file_name + ext))
 	print("FINAL LOCATION: " + final_location)
 
 	img = Image.open(form_pic)
@@ -272,12 +278,12 @@ def store_uploaded_image(form_pic, profile_user_id):
 
 
 	# Set the image width and height to reduce large image file sizes
-	file_size = (500, 500)
+	file_size = (250, 250)
 	img.thumbnail(file_size)
 
 	img.save(final_location)
 	img_data = {
-		'image_before' : final_location,
+		'image_before' : relative_path,
 		'lat' : lat,
 		'lon' : lon,
 		'date_taken' : date_taken
