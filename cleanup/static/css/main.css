@@ -37,7 +37,8 @@ body {
 
 ul {
     margin: 0;
-    padding-inline-start: 15px;
+    padding-inline-start: 0px;
+    list-style-type: none;
 }
 
 

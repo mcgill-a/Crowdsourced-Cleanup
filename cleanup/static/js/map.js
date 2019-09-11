@@ -67,7 +67,9 @@ function addMarker(incident) {
     var infowindow = new google.maps.InfoWindow({
         content: '<div>' +
         '<ul>' +
-        '<li>Detail 1</li>' +
+        '<li>Date Created: ' + 
+        `${incident.date_created}` +
+        '</li>' +
         '<li>Detail 2</li>' +
         '<li>Detail 3</li>' +
         '</ul>' +

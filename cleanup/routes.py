@@ -116,6 +116,30 @@ def signup():
 	else:
 		return render_template('signup.html', form=form)
 
+#Getting user data for AJAX
+
+
+
+@app.route('/users')
+def getUsers():
+	all_users =[]
+	#Find user from given user id in GET arguments
+	user_id = request.args.get('user')
+	#If a specific user is requested
+	
+	print(f"in users with id {user_id}")
+	if user_id:
+		result = users.find_one({'_id': user_id})
+		print (f"result is {result}")
+		return jsonify(users.find_one({'id': user_id}))
+	else: 
+		for x in users.find():
+			x['_id'] = str(x['_id'])
+			x['password'] = str(x['password'])
+			all_users.append(x)
+			print(x)
+		return jsonify(all_users)
+
 # Getting pin data for AJAX
 @app.route('/pins', methods=['GET'])
 def pins():
@@ -162,6 +186,7 @@ def logout():
 	else:
 		session.clear()
 		return redirect(url_for('login'))
+
 
 
 @app.route('/upload/', methods=['POST', 'GET'])
