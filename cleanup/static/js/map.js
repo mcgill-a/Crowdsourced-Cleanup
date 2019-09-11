@@ -52,9 +52,9 @@ function loadIncidents()
         timeout: 60000,
         success: function (data) {
             incidents = data;
+            console.log(incidents);
             for (var i = 0; i < incidents.length; i++)
             {
-                console.log(incidents[i]);
                 addMarker(incidents[i]);
             }
         }
@@ -75,8 +75,8 @@ function addMarker(incident) {
         position: latlong,
         map: gmap,
         animation: google.maps.Animation.DROP,
-        title: "Trash #00000",
-        icon: '/static/resources/default/markers/red_markerA.png',
+        title: "Trash",
+        icon: '/static/resources/default/markers/marker_a.png',
         id: counter
     });
     markers.push(marker)
