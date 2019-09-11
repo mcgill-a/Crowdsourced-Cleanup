@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% set active_page = 'login' %}
+{% set page_title = 'Login' %}
+{% block content %}
+	<div class="page-background two">
+		<div id="userModal" class="modal-popup" style="display: block;">
+			<div class="modal-popup-content">
+				<div class="left">
+				</div>
+				<div class="right">
+					<div class="modal-tabs">
+						<!--<button id="sign-up-tab"  class="modal-tab-btn">
+							<a href="/signup">SIGN UP</a>
+						</button>
+						<button id="sign-in-tab" class="modal-tab-btn active">
+							<a href="#">LOGIN</a>
+						</button>-->
+					</div>
+					
+					<div id="sign-in-content" class="modal-tab-content">
+						<div class="upper">
+							
+						</div>
+						<div class="lower">
+							{% from "includes/_formhelpers.html" import render_field %}
+								<form method='POST' action="" enctype="multipart/form-data">
+									<div class="section">
+										{{upload_form.image.label()}}
+										{{upload_form.image(class="form-control-file")}}
+										{% if upload_form.image.errors %}
+											{% for error in upload_form.image.errors %}
+												<p class="error">{{ error }}</p>
+											{% endfor %}
+										{% endif %}
+										<div class="footer">
+											<button type="submit">Submit</button>
+										</div>
+										{{ upload_form.hidden_tag() }}
+									</div>
+								</form>
+						</div>
+						<div class="flashes">
+							{% include 'includes/_messages.html' %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{#<div class="container">
+			<h1>Header</h1>
+			{% if email %}
+				<h2>Logged in as: {{email}}</h2>
+			{% endif %}
+		</div>#}
+	</div>
+{% endblock %}
