@@ -86,13 +86,14 @@ function addMarker(incident) {
         $.ajax({
             async:false,
             type: "GET",
-            url: "users?="+incident.id,
+            url: "/users?user="+incident.uploader,
             timeout: 60000,
             success: function(data){
                 user =  data;
             }
 
         })
+        
         var html =  '<div>' +
         '<ul>' +
         '<li>Date Created: ' + 

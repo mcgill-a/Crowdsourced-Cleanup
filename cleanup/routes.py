@@ -125,19 +125,20 @@ def getUsers():
 	all_users =[]
 	#Find user from given user id in GET arguments
 	user_id = request.args.get('user')
+	print(user_id)
 	#If a specific user is requested
 	
 	print(f"in users with id {user_id}")
 	if user_id:
-		result = users.find_one({'_id': user_id})
-		print (f"result is {result}")
-		return jsonify(users.find_one({'id': user_id}))
+		result = users.find_one({'_id': ObjectId(user_id)})
+		result['_id'] = str(result['_id'])
+		result['password'] = str(result['password'])
+		return jsonify(result)
 	else: 
 		for x in users.find():
 			x['_id'] = str(x['_id'])
 			x['password'] = str(x['password'])
 			all_users.append(x)
-			print(x)
 		return jsonify(all_users)
 
 # Getting pin data for AJAX
