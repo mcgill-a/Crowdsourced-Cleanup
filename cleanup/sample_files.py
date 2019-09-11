@@ -1,4 +1,4 @@
-incidents = [
+incidentssample = [
     {
         'id' : 1,
         'uploader' : "5d78d727fdd2c9e676aee62e",

@@ -30,33 +30,40 @@ function initMap() {
                 lng: position.coords.longitude
             };
             gmap.setCenter(pos);
-            addMarker(1);
+            //addMarker(1);
+            loadIncidents();
         });
     }
 }
 
-
-function addMarker(id) {
-
-    
-    var incident;
+function loadIncidents()
+{
+    var incidents
     $.ajax({
         async:false,
         type:"GET",
-        url:"/pins?pin=" + id,
+        url:"/pins",
         timeout: 60000,
         success: function (data) {
-            incident = data;
+            incidents = data;
+            console.log(incidents);
+            for (var i = 0; i < incidents.length; i++)
+            {
+                console.log(incidents[i]);
+                addMarker(incidents[i]);
+            }
         }
     });
+}
 
+
+function addMarker(incident) {
+    
     var latlong = {
         lat: incident.lat,
         lng: incident.lon
     }
-    var test = incident.image_before;
-    console.log(test);
-    console.log(`message is ${test}`);
+
     var infowindow = new google.maps.InfoWindow({
         content: '<div>' +
         '<ul>' +
@@ -67,7 +74,7 @@ function addMarker(id) {
         '</div>' +
         '<div>' +
         '<img src=' + 
-        `/static/resources/user-content/${incident.uploader}/${incident.image_before}` + 
+        incident.image_before + 
         '/>' +
         '</div>'+
         '<button onclick="removemarker()" class="btnSmall">Remove</button'

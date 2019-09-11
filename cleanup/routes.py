@@ -4,7 +4,7 @@ from flask_pymongo import PyMongo
 import os, json, copy, bcrypt, re
 import base64
 import colour
-from .sample_files import incidents
+from .sample_files import incidentssample
 from os.path import join
 from bson.objectid import ObjectId
 from functools import wraps
@@ -13,8 +13,9 @@ from cleanup import app, login_manager, users, content
 from operator import itemgetter
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import configparser, logging, os, json, random, re, string, datetime, bcrypt, urllib, hashlib, bson, math
-from PIL import Image, ExifTags
 import PIL
+from PIL import Image, ExifTags
+from PIL.ExifTags import TAGS
 import time
 import re
 from json import dumps
@@ -118,6 +119,14 @@ def signup():
 # Getting pin data for AJAX
 @app.route('/pins', methods=['GET'])
 def pins():
+	
+	incidents = []
+	db_content = content.find()
+	for current in db_content:
+		current['_id'] = str(current['_id'])
+		current['uploader'] = str(current['uploader'])
+		print(current)
+		incidents.append(current)
 	# Find pin from given pin id in GET arguments
 	pin_id = request.args.get('pin')
 	# If a specific pin is requested...
@@ -176,16 +185,17 @@ def upload():
 				# If a file was provided by the user then upload and store it
 				# Then store the name of the new file in the user profile DB
 				if upload_form.image.data:
-					image = store_uploaded_image(upload_form.image.data, str(user['_id']))
+					image_data = store_uploaded_image(upload_form.image.data, str(user['_id']))
 
 				# Create incident dictionary				
 				incident = {
 					'uploader' : ObjectId(id),
-					'image_before' : image['image_before'],
+					'image_before' : image_data['image_before'],
 					'image_after' : "",
 					'status' : "Available",
-					'lat' : 69,
-					'lon' : 69,
+					'lat' : image_data['lat'],
+					'lon' : image_data['lon'],
+					'date_taken' : image_data['date_taken'],
 					'date_created' : datetime.datetime.now(),
 					'date_cleaned' : "",
 					'value' : 10,
@@ -243,16 +253,23 @@ def store_uploaded_image(form_pic, profile_user_id):
 
 	img = Image.open(form_pic)
 	exif_data = img._getexif()
-	
-	img_exif_dict = dict(exif_data)
-	gps_data = ""
-	for key, val in img_exif_dict.items():
-		if key in ExifTags.TAGS:
-			if "GPSInfo" in ExifTags.TAGS[key]:
-				gps_data = repr(val)
-				print(ExifTags.TAGS[key] + ":" + repr(val))
-		else:
-			print("Sorry, image has no exif data.")
+
+	a = get_exif(form_pic)
+
+	date_taken = a['GPSInfo'][29]
+
+	lat = [float(x)/float(y) for x, y in a['GPSInfo'][2]]
+	latref = a['GPSInfo'][1]
+	lon = [float(x)/float(y) for x, y in a['GPSInfo'][4]]
+	lonref = a['GPSInfo'][3]
+
+	lat = lat[0] + lat[1]/60 + lat[2]/3600
+	lon = lon[0] + lon[1]/60 + lon[2]/3600
+	if latref == 'S':
+		lat = -lat
+	if lonref == 'W':
+		lon = -lon
+
 
 	# Set the image width and height to reduce large image file sizes
 	file_size = (500, 500)
@@ -261,6 +278,17 @@ def store_uploaded_image(form_pic, profile_user_id):
 	img.save(final_location)
 	img_data = {
 		'image_before' : final_location,
-		'gps_data' : gps_data
+		'lat' : lat,
+		'lon' : lon,
+		'date_taken' : date_taken
 	}
 	return img_data
+
+def get_exif(fn):
+    ret = {}
+    i = Image.open(fn)
+    info = i._getexif()
+    for tag, value in info.items():
+        decoded = TAGS.get(tag, tag)
+        ret[decoded] = value
+    return ret
