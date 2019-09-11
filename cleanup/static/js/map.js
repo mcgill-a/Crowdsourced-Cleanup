@@ -2,7 +2,13 @@ var gmap, pos, defaultwindow;
 var markers = []; 
 var counter = 0;
 var openedMarkerID;
+var infowindow 
 function initMap() {
+    infowindow = new google.maps.InfoWindow({
+
+    })
+
+
     gmap = new google.maps.Map(document.getElementById('map'), {
         center: {
             lat: -34.397,
@@ -10,19 +16,19 @@ function initMap() {
         },
         zoom: 15
     });
-    defaultwindow = new google.maps.InfoWindow({
-        content: '<div>' +
-            '<ul>' +
-            '<li>Detail 1</li>' +
-            '<li>Detail 2</li>' +
-            '<li>Detail 3</li>' +
-            '</ul>' +
-            '</div>' +
-            '<div>' +
-            '<img src="/static/resources/default/trash-icon.jpg"/>' +
-            '</div>'+
-            '<button onclick="removemarker()" class="btnSmall">Remove</button'
-    });
+   
+    infowindow.setContent('<div>' +
+        '<ul>' +
+        '<li>Detail 1</li>' +
+        '<li>Detail 2</li>' +
+        '<li>Detail 3</li>' +
+        '</ul>' +
+        '</div>' +
+        '<div>' +
+        '<img src="/static/resources/default/trash-icon.jpg"/>' +
+        '</div>'+
+        '<button onclick="removemarker()" class="btnSmall">Remove</button')
+
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             pos = {
@@ -64,13 +70,12 @@ function addMarker(incident) {
         lng: incident.lon
     }
 
-    var infowindow = new google.maps.InfoWindow({
-        content: '<div>' +
+    var html =  '<div>' +
         '<ul>' +
         '<li>Date Created: ' + 
         incident.date_created +
         '</li>' +
-        '<li>Detail 2</li>' +
+        '<li>User</li>' +
         '<li>Detail 3</li>' +
         '</ul>' +
         '</div>' +
@@ -80,7 +85,7 @@ function addMarker(incident) {
         '/>' +
         '</div>'+
         '<button onclick="removemarker()" class="btnSmall">Remove</button'
-    });
+    
 
     var marker = new google.maps.Marker({
         position: latlong,
@@ -90,9 +95,7 @@ function addMarker(incident) {
         icon: '/static/resources/default/markers/red_markerA.png',
         id: counter
     });
-    marker.addListener('click', function () {
-        infowindow.open(gmap, marker);
-    })
+    infowindow.setContent(html);
     markers.push(marker)
     counter++;
     marker.addListener('click', function () {
@@ -118,7 +121,7 @@ function addRandomMarker(colour) {
     markers.push(marker)
     counter++;
     marker.addListener('click', function () {
-        defaultwindow.open(gmap, marker);
+        infowindow.open(gmap, marker);
         openedMarkerID = marker.id;
     })
 }
