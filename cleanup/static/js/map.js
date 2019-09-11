@@ -69,21 +69,6 @@ function addMarker(incident) {
         lng: incident.lon
     }
 
-    var html =  '<div>' +
-        '<ul>' +
-        '<li>Date Created: ' + 
-        incident.date_created +
-        '</li>' +
-        '<li>User</li>' +
-        '<li>Detail 3</li>' +
-        '</ul>' +
-        '</div>' +
-        '<div>' +
-        '<img src=' + 
-        incident.image_before + 
-        '/>' +
-        '</div>'+
-        '<button onclick="removemarker()" class="btnSmall">Remove</button'
     
 
     var marker = new google.maps.Marker({
@@ -97,6 +82,37 @@ function addMarker(incident) {
     markers.push(marker)
     counter++;
     marker.addListener('click', function () {
+        var user
+        $.ajax({
+            async:false,
+            type: "GET",
+            url: "users?="+incident.id,
+            timeout: 60000,
+            success: function(data){
+                user =  data;
+            }
+
+        })
+        var html =  '<div>' +
+        '<ul>' +
+        '<li>Date Created: ' + 
+        incident.date_created +
+        '</li>' +
+        '<li>User:' +
+        user.first_name + 
+        '</li>' +
+        '<li>Cleanup Type:' +
+        incident.incident_type + 
+        '</li>' +
+        '</ul>' +
+        '</div>' +
+        '<div>' +
+        '<img src=' + 
+        incident.image_before + 
+        '/>' +
+        '</div>'+
+        '<button onclick="removemarker()" class="btnSmall">Remove</button'
+
         infowindow.setContent(html);
         infowindow.open(gmap, marker);
         openedMarkerID = marker.id;
