@@ -44,7 +44,6 @@ function addMarker() {
 }
 
 function addRandomMarker(colour) {
-    console.log(colour);
     var max = .005;
     var min = -.005;
     var newPos = {
