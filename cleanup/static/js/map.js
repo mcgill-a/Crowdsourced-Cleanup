@@ -46,7 +46,6 @@ function loadIncidents()
         timeout: 60000,
         success: function (data) {
             incidents = data;
-            console.log(incidents);
             for (var i = 0; i < incidents.length; i++)
             {
                 console.log(incidents[i]);

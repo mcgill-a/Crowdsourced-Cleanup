@@ -287,20 +287,26 @@ def store_uploaded_image(form_pic, profile_user_id):
 
 	a = get_exif(form_pic)
 
-	date_taken = a['GPSInfo'][29]
+	date_taken = ""
+	lat = 0
+	lon = 0
 
-	lat = [float(x)/float(y) for x, y in a['GPSInfo'][2]]
-	latref = a['GPSInfo'][1]
-	lon = [float(x)/float(y) for x, y in a['GPSInfo'][4]]
-	lonref = a['GPSInfo'][3]
+	if 'GPSInfo' in a:
+		date_taken = a['GPSInfo'][29]
 
-	lat = lat[0] + lat[1]/60 + lat[2]/3600
-	lon = lon[0] + lon[1]/60 + lon[2]/3600
-	if latref == 'S':
-		lat = -lat
-	if lonref == 'W':
-		lon = -lon
+		lat = [float(x)/float(y) for x, y in a['GPSInfo'][2]]
+		latref = a['GPSInfo'][1]
+		lon = [float(x)/float(y) for x, y in a['GPSInfo'][4]]
+		lonref = a['GPSInfo'][3]
 
+		lat = lat[0] + lat[1]/60 + lat[2]/3600
+		lon = lon[0] + lon[1]/60 + lon[2]/3600
+		if latref == 'S':
+			lat = -lat
+		if lonref == 'W':
+			lon = -lon
+	else:
+		print("No GPS data retrieved from image")
 
 	# Set the image width and height to reduce large image file sizes
 	file_size = (250, 250)
