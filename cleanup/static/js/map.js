@@ -40,6 +40,7 @@ function addMarker(id) {
 
     
     var incident;
+    var user;
     $.ajax({
         async:false,
         type:"GET",
@@ -49,6 +50,11 @@ function addMarker(id) {
             incident = data;
         }
     });
+    $.ajax({
+        async:false,
+        type:"GET",
+        url:""
+    })
 
     var latlong = {
         lat: incident.lat,
@@ -60,7 +66,9 @@ function addMarker(id) {
     var infowindow = new google.maps.InfoWindow({
         content: '<div>' +
         '<ul>' +
-        '<li>Detail 1</li>' +
+        '<li>Date Created: ' + 
+        `${incident.date_created}` +
+        '</li>' +
         '<li>Detail 2</li>' +
         '<li>Detail 3</li>' +
         '</ul>' +

@@ -7,25 +7,25 @@ incidents = [
         'status' : "cleaned",
         'lat' : 40.5,
         'lon' : 13.5,
-        'date_created' : 1,
+        'date_created' : "11/09/2019",
         'date_cleaned' : 5,
         'value' : 20,
         'cleaner' : 3,
-        'incident_type' : "litter"
+        'incident_type' : "Trash"
 	},
     {
         'id' : 2,
         'uploader' : 2,
         'image_before' : "2.jpg",
         'image_after' : "",
-        'status' : "pending",
+        'status' : "available",
         'lat' : 20.2,
         'lon' : 9.8,
         'date_created' : 3,
         'date_cleaned' : 0,
         'value' : 30,
         'cleaner' : 0,
-        'incident_type' : "litter"
+        'incident_type' : "Trash"
 	},
     {
         'id' : 3,
@@ -39,6 +39,6 @@ incidents = [
         'date_cleaned' : 4,
         'value' : 20,
         'cleaner' : 1,
-        'incident_type' : "litter"
+        'incident_type' : "trash"
 	},
 ]
