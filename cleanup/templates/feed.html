@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% set active_page = 'index' %}
+
+{% block content %}
+
+<div id="map"></div>
+<div class="flashes">
+    {% include 'includes/_messages.html' %}
+</div>
+<div id="floating-panel">
+    <button id="drop" onclick="addRandomMarker();">Add Marker</button>
+</div>
+
+<div id="dropdiv">
+    <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">Add Marker</button>
+        <div id="myDropdown" class="dropdown-content">
+            <button onclick="addRandomMarker('darkgreen_MarkerC.png')" >Cleanup type 1</button>
+            <button onclick="addRandomMarker('pink_MarkerB.png')" >Cleanup type 1</button>
+            <button onclick="addRandomMarker('red_MarkerA.png')" >Cleanup type 1</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="{{url_for('static', filename='js/map.js')}}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxGG-4DJjroDIjlVJwwltXQHTeMlilE54&callback=initMap" async
+    defer></script>
+
+{% endblock %}
