@@ -25,6 +25,13 @@ body {
     margin-left: -52px;
 }
 
+#dropdiv {
+    position: absolute;
+    top: 20px;
+    left:25%;
+    z-index: 5;
+    padding: 5px;
+}
 
 
 
@@ -43,6 +50,8 @@ ul {
     font-size: 16px;
     border: none;
     cursor: pointer;
+    
+
 }
 
 /* Dropdown button on hover & focus */
@@ -54,7 +63,9 @@ ul {
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
     position: relative;
-    display: inline-block;
+    z-index: 5;
+    top: 10px;
+    left: 25%;
 }
 
 /* Dropdown Content (Hidden by Default) */
