@@ -9,11 +9,12 @@ from os.path import join
 from bson.objectid import ObjectId
 from functools import wraps
 from flask import Flask, render_template, request, redirect, jsonify, session, abort, flash, url_for
-from cleanup import app, login_manager, users, images
+from cleanup import app, login_manager, users, content
 from operator import itemgetter
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import configparser, logging, os, json, random, re, string, datetime, bcrypt, urllib, hashlib, bson, math
 from PIL import Image, ExifTags
+import PIL
 import time
 import re
 from json import dumps
@@ -137,15 +138,6 @@ def is_logged_in(f):
 			return redirect(url_for('login'))
 	return wrap
 
-def get_img_metadata(imageFile, callback):
-	# Get metadata form of image
-	image = Image(imageFile)
-
-	# Extract the location from image metadata
-	latitude = image.gps_latitude
-	longitude = image.gps_longitude
-	datetime = image.datetime_original
-	callback(latitude, longitude, datetime)
 
 @app.route('/logout')
 def logout():
@@ -180,21 +172,22 @@ def upload():
 				# Then store the name of the new file in the user profile DB
 				if upload_form.image.data:
 					image = store_uploaded_image(upload_form.image.data, str(user['_id']))
-				
 
 				# Create incident dictionary				
 				incident = {
 					'uploader' : ObjectId(id),
-					'image_before' : image_before,
-					'image_after' : image_after,
-					'status' : status,
-					'lat' : lat,
-					'lon' : lon,
-					'date_created' : date_created,
-					'value' : value,
-					'cleaner' : cleaner,
-					'incident_type' : incident_type
+					'image_before' : image['image_before'],
+					'image_after' : "",
+					'status' : "Available",
+					'lat' : 69,
+					'lon' : 69,
+					'date_created' : datetime.datetime.now(),
+					'date_cleaned' : "",
+					'value' : 10,
+					'cleaner' : "",
+					'incident_type' : "Trash"
 				}
+				
 				print(incident)
 				content.insert(incident)
 
@@ -215,11 +208,11 @@ def upload():
 
 def get_next_filename(picture_path):
 	max = 0
-	files = [f for f in os.listdir(picture_path) if os.path.isfile(f)]
-
+	files = os.listdir(picture_path)
+	
 	for f in files:
-		f = os.path.splitext(f)[0]
-		f_num = int(f)
+		f_str = os.path.splitext(f)[0]
+		f_num = int(f_str)
 		if f_num > max:
 			max = f_num
 	
@@ -236,21 +229,33 @@ def store_uploaded_image(form_pic, profile_user_id):
 	picture_fn = profile_user_id
 
 	picture_path = os.path.join(app.root_path, 'static','resources','user-content', profile_user_id)
-	print(picture_path)
-	print(" ")
-	print(" ")
+
 	if not os.path.exists(picture_path):
 		os.makedirs(picture_path)
 
-	print(" ")
 	final_location = picture_path + '/' + str(get_next_filename(picture_path)) + ext
 	print("FINAL LOCATION: " + final_location)
-	print(" ")
-	# Set the image width and height to reduce large image file sizes
-	file_size = (200, 200)
+
 	img = Image.open(form_pic)
+	exif_data = img._getexif()
+	
+	img_exif_dict = dict(exif_data)
+	gps_data = ""
+	for key, val in img_exif_dict.items():
+		if key in ExifTags.TAGS:
+			if "GPSInfo" in ExifTags.TAGS[key]:
+				gps_data = repr(val)
+				print(ExifTags.TAGS[key] + ":" + repr(val))
+		else:
+			print("Sorry, image has no exif data.")
+
+	# Set the image width and height to reduce large image file sizes
+	file_size = (500, 500)
 	img.thumbnail(file_size)
 
 	img.save(final_location)
-
-	return final_location
+	img_data = {
+		'image_before' : final_location,
+		'gps_data' : gps_data
+	}
+	return img_data
