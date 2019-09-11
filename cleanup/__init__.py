@@ -27,5 +27,6 @@ socketio = SocketIO(app)
 mongo = PyMongo(app)
 print("MongoDB connected successfully")
 users = mongo.db.users
+images = mongo.db.images
 
 from cleanup import routes
