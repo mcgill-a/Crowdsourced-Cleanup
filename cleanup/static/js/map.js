@@ -35,14 +35,16 @@ function addMarker() {
         position: pos,
         map: gmap,
         animation: google.maps.Animation.DROP,
-        title: "Trash #00000"
+        title: "Trash #00000",
+        icon: '/static/resources/default/markers/red_markerA.png'
     });
     marker.addListener('click', function () {
         infowindow.open(gmap, marker);
     })
 }
 
-function addRandomMarker() {
+function addRandomMarker(colour) {
+    console.log(colour);
     var max = .005;
     var min = -.005;
     var newPos = {
@@ -51,7 +53,9 @@ function addRandomMarker() {
     }
     var marker = new google.maps.Marker({
         map: gmap,
-        position: newPos
+        position: newPos,
+        icon: '/static/resources/default/markers/' + colour
+
     });
 
     marker.addListener('click', function () {

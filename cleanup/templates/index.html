@@ -7,12 +7,15 @@
 <div id="floating-panel">
     <button id="drop" onclick="addRandomMarker();">Add Marker</button>
 </div>
-<div class="dropdown">
-    <button onclick="myFunction()" class="dropbtn">Add Marker</button>
-    <div id="myDropdown" class="dropdown-content">
-        <a href="#">Cleanup type 1</a>
-        <a href="#">Cleanup type 2</a>
-        <a href="#">Cleanup type 3</a>
+
+<div id="dropdiv">
+    <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">Add Marker</button>
+        <div id="myDropdown" class="dropdown-content">
+            <button onclick="addRandomMarker('darkgreen_MarkerA.png')" >Cleanup type 1</button>
+            <button onclick="addRandomMarker('pink_MarkerA.png')" >Cleanup type 1</button>
+            <button onclick="addRandomMarker('red_MarkerA.png')" >Cleanup type 1</button>
+        </div>
     </div>
 </div>
 <script type="text/javascript" src="{{url_for('static', filename='js/map.js')}}"></script>
