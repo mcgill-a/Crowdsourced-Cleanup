@@ -94,10 +94,10 @@ function addMarker(incident) {
         icon: '/static/resources/default/markers/red_markerA.png',
         id: counter
     });
-    infowindow.setContent(html);
     markers.push(marker)
     counter++;
     marker.addListener('click', function () {
+        infowindow.setContent(html);
         infowindow.open(gmap, marker);
         openedMarkerID = marker.id;
     })
