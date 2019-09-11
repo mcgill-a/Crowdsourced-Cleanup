@@ -25,3 +25,6 @@ class SignupForm(FlaskForm):
 		validators.EqualTo('confirm', message='Passwords do not match')
 	])
 	confirm = PasswordField('confirm')
+
+class UploadForm(FlaskForm):
+	image = FileField('UPLOAD IMAGE:', validators=[FileAllowed(['jpg', 'png'])])

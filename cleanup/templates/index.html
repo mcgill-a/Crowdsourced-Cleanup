@@ -4,6 +4,9 @@
 {% block content %}
 
 <div id="map"></div>
+<div class="flashes">
+    {% include 'includes/_messages.html' %}
+</div>
 <div id="floating-panel">
     <button id="drop" onclick="addRandomMarker();">Add Marker</button>
 </div>

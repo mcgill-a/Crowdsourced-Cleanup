@@ -1,25 +1,30 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
 from flask_pymongo import PyMongo
-import os, json, copy, bcrypt
+import os, json, copy, bcrypt, re
 import base64
 import colour
+from .sample_files import incidents
 from os.path import join
+from bson.objectid import ObjectId
+from functools import wraps
 from flask import Flask, render_template, request, redirect, jsonify, session, abort, flash, url_for
 from cleanup import app, login_manager, users
 from operator import itemgetter
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+import configparser, logging, os, json, random, re, string, datetime, bcrypt, urllib, hashlib, bson, math
 from PIL import Image, ExifTags
 import time
 import re
 from json import dumps
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from .forms import SignupForm, LoginForm
+from .forms import SignupForm, LoginForm, UploadForm
 
 
 @app.route('/', methods=['GET'])
 def index():
 	return render_template('index.html')
+
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -132,3 +137,101 @@ def logout():
 	else:
 		session.clear()
 		return redirect(url_for('login'))
+
+
+@app.route('/upload/', methods=['POST', 'GET'])
+@is_logged_in
+def upload():
+	current_user = None
+	if session.get('logged_in'):
+		current_user = users.find_one({'_id' : ObjectId(session.get('id'))})
+	else:
+		flash('Access restricted. Please login first', 'danger')
+		return redirect(url_for('login'))
+	
+	upload_form = UploadForm()
+	id = str(current_user['_id'])
+	if id is not None and bson.objectid.ObjectId.is_valid(id):
+		user = users.find_one({'_id' : ObjectId(id)})
+
+		if str(current_user['_id']) == id:
+			if request.method == 'POST' and upload_form.validate():
+				
+				# If a file was provided by the user then upload and store it
+				# Then store the name of the new file in the user profile DB
+				if upload_form.image.data:
+					image = store_uploaded_image(upload_form.image.data, str(user['_id']))
+				
+
+				# Create incident dictionary				
+				incident = {
+					'uploader' : ObjectId(id),
+					'image_before' : image_before,
+					'image_after' : image_after,
+					'status' : status,
+					'lat' : lat,
+					'lon' : lon,
+					'date_created' : date_created,
+					'value' : value,
+					'cleaner' : cleaner,
+					'incident_type' : incident_type
+				}
+				print(incident)
+				content.insert(incident)
+
+				flash("Image uploaded successfully", "success")
+				return redirect('/')
+
+			elif request.method == 'GET' and user is not None:
+				upload_form.image.data = ""
+
+			
+			return render_template('upload.html', current_user=current_user, upload_form=upload_form, incidents=incidents)
+		else:
+			flash("Access restricted. You do not have permission to do that", 'danger')
+			return redirect(url_for('index'))
+
+	return redirect(url_for('index'))
+
+
+def get_next_filename(picture_path):
+	max = 0
+	files = [f for f in os.listdir(picture_path) if os.path.isfile(f)]
+
+	for f in files:
+		f = os.path.splitext(f)[0]
+		f_num = int(f)
+		if f_num > max:
+			max = f_num
+	
+	return max + 1
+
+
+def extract_number(f):
+    s = re.findall("\d+$",f)
+    return (int(s[0]) if s else -1,f)
+
+
+def store_uploaded_image(form_pic, profile_user_id):
+	_, ext = os.path.splitext(form_pic.filename)
+	picture_fn = profile_user_id
+
+	picture_path = os.path.join(app.root_path, 'static','resources','user-content', profile_user_id)
+	print(picture_path)
+	print(" ")
+	print(" ")
+	if not os.path.exists(picture_path):
+		os.makedirs(picture_path)
+
+	print(" ")
+	final_location = picture_path + '/' + str(get_next_filename(picture_path)) + ext
+	print("FINAL LOCATION: " + final_location)
+	print(" ")
+	# Set the image width and height to reduce large image file sizes
+	file_size = (200, 200)
+	img = Image.open(form_pic)
+	img.thumbnail(file_size)
+
+	img.save(final_location)
+
+	return final_location
