@@ -68,7 +68,7 @@ function addMarker(incident) {
         content: '<div>' +
         '<ul>' +
         '<li>Date Created: ' + 
-        `${incident.date_created}` +
+        incident.date_created +
         '</li>' +
         '<li>Detail 2</li>' +
         '<li>Detail 3</li>' +

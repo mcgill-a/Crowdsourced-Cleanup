@@ -157,7 +157,7 @@ def pins():
 	if not pin_id == None:
 		# ... Search through the incidents until the right one is found
 		for incident in incidents:
-			if str(incident['id']) == pin_id:
+			if str(incident['_id']) == pin_id:
 				return jsonify(incident)
 		# If none are found return 404
 		return '404'
