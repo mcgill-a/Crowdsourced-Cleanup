@@ -6,11 +6,10 @@ import base64
 import colour
 from os.path import join
 from flask import Flask, render_template, request, redirect, jsonify, session, abort, flash, url_for
-from cleanup import app, login_manager
+from cleanup import app, login_manager, users
 from operator import itemgetter
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from PIL import Image, ExifTags
-from datetime import datetime, date
 import time
 import re
 from json import dumps
@@ -27,6 +26,7 @@ def login():
 	if session.get('logged_in'):
 		#output = "You are already logged in as " + session.get('email')
 		#flash(output, 'warning')
+		print(session.get('email') + " is already logged in")
 		return redirect(url_for('index'))
 	
 	ip = request.environ['REMOTE_ADDR']
@@ -46,6 +46,7 @@ def login():
 				session['id'] = str(result.get('_id'))
 				session['fullname'] = result.get('first_name') + " " + result.get('last_name')
 				#flash('You are now logged in', 'success')
+				print(session.get('email') + " has logged in")
 				return redirect(url_for('index'))
 				
 			else:
@@ -79,7 +80,6 @@ def signup():
 
 		email = form.email.data
 		# Set the default inputs
-		current_datetime = datetime.datetime.now()
 		ip = request.environ['REMOTE_ADDR']
 		account_level = 0
 
@@ -96,9 +96,6 @@ def signup():
 				'last_name' : last_name,
 				'email' : email,
 				'password' : hashpass,
-				'created' : current_datetime,
-				'last_updated' : current_datetime,
-				'last_seen' : current_datetime,
 				'last_ip' : ip,
 				'account_level' : account_level,
 			})
