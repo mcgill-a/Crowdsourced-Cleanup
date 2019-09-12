@@ -7,7 +7,8 @@ function refresh () {
     $.get('/feed', data => {
         //console.log(data);
         resHTML = "";
-        data.forEach(element => {
+        var reversed = data.reverse()
+        reversed.forEach(element => {
             if (element.type == "new_pin") {
                 resHTML += "<tr class='feedTR'><td class='feedEntry'>New <div class='clickable' onClick='window.location.href = \"/?pin=" + element.incident_id + "\";'>pin</div> uploaded by <div class='clickable' onClick='window.location.href = \"/users?user=" + element.user_id + "\";'>" + element.user_first_name + "</div></td></tr>";
             }
