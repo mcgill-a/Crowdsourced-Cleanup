@@ -104,6 +104,8 @@ def signup():
 				'password' : hashpass,
 				'last_ip' : ip,
 				'account_level' : account_level,
+				'score' : 0,
+				'badges' : []
 			})
 
 			# Retrieve the ID of the newly created user
@@ -116,10 +118,8 @@ def signup():
 	else:
 		return render_template('signup.html', form=form)
 
+
 #Getting user data for AJAX
-
-
-
 @app.route('/users')
 def getUsers():
 	all_users =[]
@@ -292,7 +292,7 @@ def store_uploaded_image(form_pic, profile_user_id):
 	lat = 0
 	lon = 0
 
-	if 'GPSInfo' in a:
+	if a is not None and 'GPSInfo' in a:
 		date_taken = a['GPSInfo'][29]
 
 		lat = [float(x)/float(y) for x, y in a['GPSInfo'][2]]
@@ -326,7 +326,35 @@ def get_exif(fn):
     ret = {}
     i = Image.open(fn)
     info = i._getexif()
-    for tag, value in info.items():
-        decoded = TAGS.get(tag, tag)
-        ret[decoded] = value
-    return ret
+	if info is not None:
+		for tag, value in info.items():
+			decoded = TAGS.get(tag, tag)
+			ret[decoded] = value
+		return ret
+	return None
+
+
+
+'''
+
+get all incidents with status available
+
+sort by date
+get latest 20
+
+
+100 score
+
+50 pt badge
+100 pt badge
+
+
+queue
+
+{
+	type : (cleaned, added, badge earned),
+	incident_id : oid,
+	user_id : oid,
+}
+
+'''
