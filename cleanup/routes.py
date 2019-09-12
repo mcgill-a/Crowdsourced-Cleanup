@@ -326,12 +326,12 @@ def get_exif(fn):
     ret = {}
     i = Image.open(fn)
     info = i._getexif()
-	if info is not None:
-		for tag, value in info.items():
-			decoded = TAGS.get(tag, tag)
-			ret[decoded] = value
-		return ret
-	return None
+    if info is not None:
+        for tag, value in info.items():
+            decoded = TAGS.get(tag, tag)
+            ret[decoded] = value
+        return ret
+    return None
 
 
 
