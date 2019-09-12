@@ -70,7 +70,7 @@ def aging():
 	f.close()
 		
 #resetValues() 
-schedule.every(10).seconds.do(job)
+schedule.every(10).minutes.do(job)
 
 @app.route('/', methods=['GET'])
 def index():
