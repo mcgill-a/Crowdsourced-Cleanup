@@ -14,17 +14,60 @@ from operator import itemgetter
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import configparser, logging, os, json, random, re, string, datetime, bcrypt, urllib, hashlib, bson, math
 import PIL
+import datetime
 from PIL import Image, ExifTags
 from PIL.ExifTags import TAGS
+import threading
+import schedule
 import time
 import re
 from json import dumps
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from .forms import SignupForm, LoginForm, UploadForm
 
+
+def resetValues():
+	for x in content.find():
+		x['value'] = 10
+		content.save(x)
+
+def thread():
+	while True:
+		schedule.run_pending()
+x = None
+x = threading.Thread(target=thread)
+x.daemon = True
+x.start()
+
+def job():
+	print("scheduled job running...")
+	aging()
+
+
+def aging():
+	for x in content.find():
+		incidentDate = x['date_created']
+		diff = datetime.datetime.now() - incidentDate
+		score = x['value']
+		hourDiff = math.floor(diff.seconds / 3600)
+		print(hourDiff) 
+		if hourDiff > 0 :
+			print("difference exists")
+			newScore = 20 + (5 * hourDiff)
+			if newScore > 60:
+				return
+			if score != newScore:
+				print("saving new score")
+				x['value'] = newScore 
+				content.save(x)
+		
+#resetValues()
+schedule.every(15).minutes.do(job)
+
 @app.route('/', methods=['GET'])
 def index():
 	return render_template('index.html')
+
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -125,10 +168,7 @@ def getUsers():
 	all_users =[]
 	#Find user from given user id in GET arguments
 	user_id = request.args.get('user')
-	print(user_id)
 	#If a specific user is requested
-	
-	print(f"in users with id {user_id}")
 	if user_id:
 		result = users.find_one({'_id': ObjectId(user_id)})
 		result['_id'] = str(result['_id'])
