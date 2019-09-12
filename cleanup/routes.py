@@ -74,8 +74,10 @@ schedule.every(10).minutes.do(job)
 
 @app.route('/', methods=['GET'])
 def index():
+
 	upload_form = UploadForm()
 	upload_form.image.data = ""
+
 	return render_template('index.html', upload_form=upload_form)
 
 

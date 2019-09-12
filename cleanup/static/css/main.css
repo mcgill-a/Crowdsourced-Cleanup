@@ -93,6 +93,7 @@ ul {
 .popup_upload .header {
     text-align: center;
     margin-top: 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .popup_upload .section {
@@ -103,11 +104,31 @@ ul {
 }
 
 .popup_upload .section button {
-    margin-top: 30px;
+    margin-top: 20px;
+    background-color: #3498DB;
+    color: white;
+    padding: 5px 10px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
 
 }
 
-.popup_upload .alert {
+.popup_upload .footer {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+}
+
+.popup_upload .section .alert {
+    padding: 5px 10px;
+    width: 245px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.popup_upload .warning {
     width: 245px;
     height: 20px;
     border-radius: 3px;

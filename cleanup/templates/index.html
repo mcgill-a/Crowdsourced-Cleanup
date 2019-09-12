@@ -18,22 +18,17 @@
                     
                         <h3 class="header">{{upload_form.image.label()}}</h3>
                         <div class="section">
-                            {% if current_user.is_authenticated %}
+                            {% if session['logged_in'] %}
                                 {% from "includes/_formhelpers.html" import render_field %}
-                                <form method='POST' action="/upload/" enctype="multipart/form-data"></form>    
+                                <form method='POST' action="/upload/" enctype="multipart/form-data">   
                                     {{upload_form.image(class="form-control-file")}}
-                                    {% if upload_form.image.errors %}
-                                        {% for error in upload_form.image.errors %}
-                                        <p class="error">{{ error }}</p>
-                                        {% endfor %}
-                                        {% endif %}
                                         <div class="footer">
-                                            <button type="submit">Submit</button>
+                                            <button onclick="myFunction()" type="submit" >Submit</button>
                                         </div>
                                         {{ upload_form.hidden_tag() }}
                                 </form>
                             {% else %}
-                                <div class="alert">
+                                <div class="alert alert-danger">
                                     <p>Login Required</p>
                                 </div>
                                 <a href="/login">Click here to login</a>
