@@ -141,6 +141,20 @@ def getUsers():
 			all_users.append(x)
 		return jsonify(all_users)
 
+
+#Getting current user data for AJAX
+@app.route('/users/current')
+def get_current_user_id():
+	#Find user from given user id in GET arguments
+	if session.get('logged_in'):
+		result = users.find_one({'_id': ObjectId(session.get('id'))})
+		result['_id'] = str(result['_id'])
+		result['password'] = str(result['password'])
+		return jsonify(result)
+	else:
+		return ""
+
+
 # Getting pin data for AJAX
 @app.route('/pins', methods=['GET'])
 def pins():
