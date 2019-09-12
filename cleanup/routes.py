@@ -165,6 +165,16 @@ def pins():
 		# If no specific pin is requested, return them all
 		return jsonify(incidents)
 
+@app.route('/feed', methods=['GET'])
+def getFeed():
+	all_feed = []
+	for x in feed.find():
+		x['_id'] = str(x['_id'])
+		x['incident_id'] = str(x['incident_id'])
+		x['user_id'] = str(x['user_id'])
+		all_feed.append(x)
+	return jsonify(all_feed)
+
 # Redirect logged out users with error message
 def is_logged_in(f):
 	@wraps(f)
@@ -234,11 +244,12 @@ def upload():
 					# In future this would let them place pin manually for lat and lon
 					flash("Could not retrieve image location from metadata", "danger")
 				else:
-					incidentEntry = content.insertOne(incident)
+					incidentID = content.insert(incident)
 					feedObject = {
 						'type' : "new_pin",
-						'incident_id' : incidentEntry['_id'],
-						'user_id' : ""
+						'incident_id' : incidentID,
+						'user_id' : "",
+						'time' : datetime.datetime.now()
 					}
 					feed.insert(feedObject)
 					flash("Image uploaded successfully", "success")
