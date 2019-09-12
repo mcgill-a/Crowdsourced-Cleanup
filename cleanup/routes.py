@@ -309,14 +309,15 @@ def store_uploaded_image(form_pic, profile_user_id):
 			lat = -lat
 		if lonref == 'W':
 			lon = -lon
+
+		# Set the image width and height to reduce large image file sizes
+		file_size = (250, 250)
+		img.thumbnail(file_size)
+
+		img.save(final_location)
 	else:
 		print("No GPS data retrieved from image")
 
-	# Set the image width and height to reduce large image file sizes
-	file_size = (250, 250)
-	img.thumbnail(file_size)
-
-	img.save(final_location)
 	img_data = {
 		'image_before' : relative_path,
 		'lat' : lat,
