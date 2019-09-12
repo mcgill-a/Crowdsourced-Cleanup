@@ -27,7 +27,7 @@ function initMap() {
         '<div>' +
         '<img src="/static/resources/default/trash-icon.jpg"/>' +
         '</div>'+
-        '<button onclick="removemarker()" class="btnSmall">Remove</button')
+        '<button onclick="removemarker()" class="btnSmall">Remove</button>')
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -82,7 +82,7 @@ function addMarker(incident) {
     markers.push(marker)
     counter++;
     marker.addListener('click', function () {
-        var user
+        var user;
         $.ajax({
             async:false,
             type: "GET",
@@ -93,26 +93,42 @@ function addMarker(incident) {
             }
 
         })
+        var logged_in_user;
+        $.ajax({
+            async:false,
+            type: "GET",
+            url: "/users/current",
+            timeout: 60000,
+            success: function(data){
+                logged_in_user =  data;
+            }
+
+        })
+        var html = '<div>' +
+            '<ul>' +
+            '<li>Date Created: ' + 
+            incident.date_created +
+            '</li>' +
+            '<li>User:' +
+            user.first_name + 
+            '</li>' +
+            '<li>Cleanup Type:' +
+            incident.incident_type + 
+            '</li>' +
+            '</ul>' +
+            '</div>' +
+            '<div>' +
+            '<img src=' + 
+            incident.image_before + 
+            '/>' +
+            '</div>'
         
-        var html =  '<div>' +
-        '<ul>' +
-        '<li>Date Created: ' + 
-        incident.date_created +
-        '</li>' +
-        '<li>User:' +
-        user.first_name + 
-        '</li>' +
-        '<li>Cleanup Type:' +
-        incident.incident_type + 
-        '</li>' +
-        '</ul>' +
-        '</div>' +
-        '<div>' +
-        '<img src=' + 
-        incident.image_before + 
-        '/>' +
-        '</div>'+
-        '<button onclick="removemarker()" class="btnSmall">Remove</button'
+        if (logged_in_user != "" && (logged_in_user._id == incident.uploader) || logged_in_user.account_level == 100)
+        {
+            html += '<button onclick="removemarker()" class="btnSmall">Remove</button>'
+            console.log("MATCHED: " + logged_in_user._id + " == " + incident.uploader);
+        }
+        
 
         infowindow.setContent(html);
         infowindow.open(gmap, marker);
