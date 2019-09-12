@@ -1,3 +1,14 @@
+.page-background {
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+	background-attachment: fixed;
+	background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.3)),url('../resources/default/display/page-background.jpg');
+	background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center; 
+}
+
 .modal-popup {
 	display: none;
 	position: fixed;
@@ -6,7 +17,7 @@
 	width: 100%;
 	height: 100%;
 	overflow: none;
-	background-color: rgba(0,0,0,0.5);
+	background-color: rgba(0,0,0,0.2);
 }
 
  .modal-popup-content {
@@ -26,7 +37,7 @@
 	background: lightblue;
 	border-radius: 10px 0 0 10px;
 	padding: 10px;
-	background: url('resources/modal/1.jpg') no-repeat center;
+	background: url('../resources/default/display/modal-background.jpg') no-repeat center;
 	background-size: cover;
 }
  .modal-popup-content .right {
@@ -122,4 +133,23 @@ form .section input:focus {
 
 #forgot-password {
 	float: right;
+}
+
+@media screen and (max-width: 920px) {
+    .left {
+        display: none;
+	}
+
+	.modal-popup-content {
+		justify-content: center;
+		width: 100%;
+		border-radius: 10px 10px 10px 10px !important;
+		height: 570px;
+	}
+
+	.modal-popup-content .right {
+		width: 70%;
+		border-radius: 10px 10px 10px 10px !important;
+	}
+
 }

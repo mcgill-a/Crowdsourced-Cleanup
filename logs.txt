@@ -1,10 +1,3 @@
-Considering incident: 5d7a9dd592f5ad723603149b
-hour difference for incdent is 1
+Considering incident: 5d7aa9f2f63a325ebf6db111
+hour difference for incdent is 2
 difference is greater than 0
-saving new score 25
-Considering incident: 5d7aa4a9657f4974dbc5cfde
-hour difference for incdent is 0
-Considering incident: 5d7aa5231ea525e0c469280c
-hour difference for incdent is 0
-Considering incident: 5d7aa5341ea525e0c469280e
-hour difference for incdent is 0

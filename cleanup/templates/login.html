@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% set active_page = 'login' %}
 {% set page_title = 'Login' %}
-<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/modal.css')}}">
 {% block content %}
-	<div class="page-background two">
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/modal.css')}}">
+	<div class="page-background">
 		<div id="userModal" class="modal-popup" style="display: block;">
 			<div class="modal-popup-content">
 				<div class="left">
@@ -45,7 +45,6 @@
 								{{ form.hidden_tag() }}
 							</form>
 							<br /><br /><br />
-							<a id="forgot-password" href="#">Forgot Your Password?</a>
 						</div>
 						<div class="flashes">
 							{% include 'includes/_messages.html' %}
