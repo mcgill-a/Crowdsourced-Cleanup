@@ -1,5 +1,6 @@
 $(document).ready(() => {
     refresh();
+    setInterval(() => {refresh();}, 10000);
 });
 
 function refresh () {
