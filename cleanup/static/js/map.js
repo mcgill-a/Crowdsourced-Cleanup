@@ -142,7 +142,8 @@ function addMarker(incident) {
             '<img src=' + 
             incident.image_before + 
             '/>' +
-            '</div>'
+            '</div>' +
+            '<button class="btnSmall" onclick="window.location.href = \'/cleanup?pin=' + incident._id +'\'">Cleanup</button>'
         
         if (logged_in_user != "" && (logged_in_user._id == incident.uploader) || logged_in_user.account_level == 100)
         {
