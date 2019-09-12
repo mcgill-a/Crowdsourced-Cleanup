@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% set active_page = 'login' %}
 {% set page_title = 'Login' %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/modal.css')}}">
 {% block content %}
 	<div class="page-background two">
 		<div id="userModal" class="modal-popup" style="display: block;">
