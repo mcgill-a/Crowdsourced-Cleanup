@@ -35,10 +35,11 @@ def thread():
 	while True:
 		schedule.run_pending()
 		time.sleep(60)
-		x = None
-		x = threading.Thread(target=thread)
-		x.daemon = True
-		x.start()
+		
+x = None
+x = threading.Thread(target=thread)
+x.daemon = True
+x.start()
 
 def job():
 	print("scheduled job running...")
