@@ -230,9 +230,13 @@ def upload():
 				}
 				
 				print(incident)
-				content.insert(incident)
-
-				flash("Image uploaded successfully", "success")
+				if incident.lat == 0 and incident.lon == 0:
+					# Tell user could not find location, image was not upload
+					# In future this would let them place pin manually for lat and lon
+					flash("Could not retrieve image location from metadata")
+				else:
+					content.insert(incident)
+					flash("Image uploaded successfully", "success")
 				return redirect('/')
 
 			elif request.method == 'GET' and user is not None:
