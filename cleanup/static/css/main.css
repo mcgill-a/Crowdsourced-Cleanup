@@ -108,9 +108,11 @@ ul {
 }
 
 .search-container {
-    float: right;
+    display: flex;
     right: 10px;
     margin: 0 auto;
+    flex-direction: row;
+    flex-wrap: nowrap;
 }
 
 input[type=text] {
@@ -135,20 +137,29 @@ input[type=text] {
 
 @media screen and (max-width: 600px) {
     .search-container {
-        float: none;
+        justify-content: flex-start;
     }
 
-    input[type=text],
-    .search-container button {
-        float: none;
-        display: block;
-        text-align: left;
-        width: 100%;
+
+    .search-container form {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    input[type=text] {
+        width: 50%;
         margin: 0;
-        padding: 14px;
     }
 
     input[type=text] {
         border: 1px solid #ccc;
     }
+}
+
+
+@media screen and (max-width: 400px) {
+    .dropbtn {
+        padding: 5px;
+    }
+
 }
