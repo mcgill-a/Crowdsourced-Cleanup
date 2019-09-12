@@ -82,15 +82,14 @@ def login():
 	form = LoginForm(request.form)
 	if request.method =='POST' and form.validate():
 		email = form.email.data
-		password_entered = form.password.data
 
 		result = users.find_one({'email' : re.compile(email, re.IGNORECASE)})
-
+		#print(result['password'][1][0][1])
+		print(result)
+		print(result['password'])
+		print("\n\n")
 		if result is not None:
-			#if (bcrypt.checkpw(password_entered.encode('utf-8'), result['password'])):
-			##
-			###if (bcrypt.checkpw(password_entered.encode('utf-8'), result['password'].encode('utf-8'))):
-			if bcrypt.checkpw(password_entered.encode('utf-8'), result['password']):
+			if (bcrypt.checkpw(form.password.data.encode('utf-8'), result['password'])):
 				session['logged_in'] = True
 				session['email'] = result.get('email')
 				session['id'] = str(result.get('_id'))
@@ -140,7 +139,7 @@ def signup():
 			flash('Account already exists', 'danger')
 			return render_template('signup.html', form=form)
 		if existing_user is None:
-			hashpass = bcrypt.hashpw(form.password.data.encode('utf-8'), bcrypt.gensalt())
+			hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
 			users.insert({
 				'first_name' : first_name,
 				'last_name' : last_name,
