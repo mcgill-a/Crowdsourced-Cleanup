@@ -52,6 +52,22 @@ ul {
     cursor: pointer;
 }
 
+.marker_buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.btnDelete {
+    background-color: rgb(194, 58, 58);
+    color: white;
+    padding: 0px 10px;
+    height: 30px;
+    border: none;
+    border-radius: 3px;
+}
+
 .btnSmall {
     background-color: #3498DB;
     color: white;
