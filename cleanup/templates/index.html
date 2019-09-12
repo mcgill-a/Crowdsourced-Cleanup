@@ -7,7 +7,6 @@
 </div>
 <div id="map"></div>
 <div id="feedContainer">
-    <img src='/static/resources/default/refresh.webp' id="refreshBtn" onClick="refresh()"/>
     <table id="feed"></table>
 </div>
 <div class="controls">
@@ -15,9 +14,27 @@
         <div class="dropdown">
             <button onclick="myFunction()" class="dropbtn">Add Marker</button>
             <div id="myDropdown" class="dropdown-content">
-                <button onclick="addRandomMarker('darkgreen_MarkerC.png')">Cleanup type 1</button>
+                <!--<button onclick="addRandomMarker('darkgreen_MarkerC.png')">Cleanup type 1</button>
                 <button onclick="addRandomMarker('pink_MarkerB.png')">Cleanup type 1</button>
-                <button onclick="addRandomMarker('red_MarkerA.png')">Cleanup type 1</button>
+                <button onclick="addRandomMarker('red_MarkerA.png')">Cleanup type 1</button>-->
+                <div class="popup_upload">
+                    {% from "includes/_formhelpers.html" import render_field %}
+                    <form method='POST' action="/upload/" enctype="multipart/form-data">
+                        <div class="section">
+                            {{upload_form.image.label()}}
+                            {{upload_form.image(class="form-control-file")}}
+                            {% if upload_form.image.errors %}
+                            {% for error in upload_form.image.errors %}
+                            <p class="error">{{ error }}</p>
+                            {% endfor %}
+                            {% endif %}
+                            <div class="footer">
+                                <button type="submit">Submit</button>
+                            </div>
+                            {{ upload_form.hidden_tag() }}
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
