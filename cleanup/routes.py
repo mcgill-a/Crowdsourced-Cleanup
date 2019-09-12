@@ -200,7 +200,6 @@ def pins():
 	for current in db_content:
 		current['_id'] = str(current['_id'])
 		current['uploader'] = str(current['uploader'])
-		print(current)
 		incidents.append(current)
 	# Find pin from given pin id in GET arguments
 	pin_id = request.args.get('pin')
@@ -342,7 +341,6 @@ def store_uploaded_image(form_pic, profile_user_id):
 
 	final_location = picture_path + '/' + next_file_name + ext
 	relative_path = os.path.join('static','resources','user-content', profile_user_id, (next_file_name + ext))
-	print("FINAL LOCATION: " + final_location)
 
 	img = Image.open(form_pic)
 	exif_data = img._getexif()
