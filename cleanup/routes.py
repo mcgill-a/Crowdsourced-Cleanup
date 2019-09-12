@@ -9,7 +9,7 @@ from os.path import join
 from bson.objectid import ObjectId
 from functools import wraps
 from flask import Flask, render_template, request, redirect, jsonify, session, abort, flash, url_for
-from cleanup import app, login_manager, users, content, feed
+from cleanup import app, login_manager, users, content
 from operator import itemgetter
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import configparser, logging, os, json, random, re, string, datetime, bcrypt, urllib, hashlib, bson, math
@@ -45,30 +45,40 @@ def job():
 
 
 def aging():
+	f = open ("logs.txt", "w+")
 	for x in content.find():
+		f.write("Considering incident: " + str(x['_id']) + "\n")
 		incidentDate = x['date_created']
 		diff = datetime.datetime.now() - incidentDate
 		score = x['value']
 		hourDiff = math.floor(diff.seconds / 3600)
 		print(hourDiff) 
+		f.write(f"hour difference for incdent is {hourDiff}\n")
 		if hourDiff > 0 :
+			f.write(f"difference is greater than 0\n")
 			print("difference exists")
 			newScore = 20 + (5 * hourDiff)
 			if newScore > 60:
+				f.write(f"score is {newScore} this is greater than limit abort\n")
+				f.close()
 				return
 			if score != newScore:
+				f.write(f"saving new score {newScore}\n")
 				print("saving new score")
 				x['value'] = newScore 
 				content.save(x)
+	f.close()
 		
-#resetValues()
-schedule.every(15).minutes.do(job)
+#resetValues() 
+schedule.every(10).minutes.do(job)
 
 @app.route('/', methods=['GET'])
 def index():
 	upload_form = UploadForm()
 	upload_form.image.data = ""
 	return render_template('index.html', upload_form=upload_form)
+
+
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -84,7 +94,6 @@ def login():
 		email = form.email.data
 
 		result = users.find_one({'email' : re.compile(email, re.IGNORECASE)})
-		#print(result['password'][1][0][1])
 		print(result)
 		print(result['password'])
 		print("\n\n")
@@ -147,8 +156,6 @@ def signup():
 				'password' : hashpass,
 				'last_ip' : ip,
 				'account_level' : account_level,
-				'score' : 0,
-				'badges' : []
 			})
 
 			# Retrieve the ID of the newly created user
@@ -161,8 +168,10 @@ def signup():
 	else:
 		return render_template('signup.html', form=form)
 
-
 #Getting user data for AJAX
+
+
+
 @app.route('/users')
 def getUsers():
 	all_users =[]
@@ -180,20 +189,6 @@ def getUsers():
 			x['password'] = str(x['password'])
 			all_users.append(x)
 		return jsonify(all_users)
-
-
-#Getting current user data for AJAX
-@app.route('/users/current')
-def get_current_user_id():
-	#Find user from given user id in GET arguments
-	if session.get('logged_in'):
-		result = users.find_one({'_id': ObjectId(session.get('id'))})
-		result['_id'] = str(result['_id'])
-		result['password'] = str(result['password'])
-		return jsonify(result)
-	else:
-		return ""
-
 
 # Getting pin data for AJAX
 @app.route('/pins', methods=['GET'])
@@ -218,16 +213,6 @@ def pins():
 	else:
 		# If no specific pin is requested, return them all
 		return jsonify(incidents)
-
-@app.route('/feed', methods=['GET'])
-def getFeed():
-	all_feed = []
-	for x in feed.find():
-		x['_id'] = str(x['_id'])
-		x['incident_id'] = str(x['incident_id'])
-		x['user_id'] = str(x['user_id'])
-		all_feed.append(x)
-	return jsonify(all_feed)
 
 # Redirect logged out users with error message
 def is_logged_in(f):
@@ -365,31 +350,28 @@ def store_uploaded_image(form_pic, profile_user_id):
 	lat = 0
 	lon = 0
 
-	if a is not None and 'GPSInfo' in a:
-		if 29 in a['GPSInfo']:
-			date_taken = a['GPSInfo'][29]
-		if 2 in a['GPSInfo']:
+	if 'GPSInfo' in a:
+		date_taken = a['GPSInfo'][29]
 
-			lat = [float(x)/float(y) for x, y in a['GPSInfo'][2]]
-			latref = a['GPSInfo'][1]
-			lon = [float(x)/float(y) for x, y in a['GPSInfo'][4]]
-			lonref = a['GPSInfo'][3]
+		lat = [float(x)/float(y) for x, y in a['GPSInfo'][2]]
+		latref = a['GPSInfo'][1]
+		lon = [float(x)/float(y) for x, y in a['GPSInfo'][4]]
+		lonref = a['GPSInfo'][3]
 
-			lat = lat[0] + lat[1]/60 + lat[2]/3600
-			lon = lon[0] + lon[1]/60 + lon[2]/3600
-			if latref == 'S':
-				lat = -lat
-			if lonref == 'W':
-				lon = -lon
-
-		# Set the image width and height to reduce large image file sizes
-		file_size = (250, 250)
-		img.thumbnail(file_size)
-
-		img.save(final_location)
+		lat = lat[0] + lat[1]/60 + lat[2]/3600
+		lon = lon[0] + lon[1]/60 + lon[2]/3600
+		if latref == 'S':
+			lat = -lat
+		if lonref == 'W':
+			lon = -lon
 	else:
 		print("No GPS data retrieved from image")
 
+	# Set the image width and height to reduce large image file sizes
+	file_size = (250, 250)
+	img.thumbnail(file_size)
+
+	img.save(final_location)
 	img_data = {
 		'image_before' : relative_path,
 		'lat' : lat,
@@ -402,23 +384,7 @@ def get_exif(fn):
     ret = {}
     i = Image.open(fn)
     info = i._getexif()
-    if info is not None:
-        for tag, value in info.items():
-            decoded = TAGS.get(tag, tag)
-            ret[decoded] = value
-        return ret
-    return None
-
-
-
-'''
-
-feed
-
-{
-	type: string,
-	incident_id: string,
-	user_id: string
-}
-
-'''
+    for tag, value in info.items():
+        decoded = TAGS.get(tag, tag)
+        ret[decoded] = value
+    return ret
