@@ -27,18 +27,39 @@ function initMap() {
         '<div>' +
         '<img src="/static/resources/default/trash-icon.jpg"/>' +
         '</div>'+
-        '<button onclick="removemarker()" class="btnSmall">Remove</button')
+        '<button onclick="removemarker()" class="btnSmall">Remove</button>')
 
+    const urlParams = new URLSearchParams(window.location.search);
+    
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
+        // If we have a pin query, ajax the pin and center on its lat lon
+        if (urlParams.get('pin')) {
+            $.get("/pins?pin=" + urlParams.get('pin'), data => {
+                pos = {
+                    lat: data.lat,
+                    lng: data.lon
+                };
+                gmap.setCenter(pos);
+                loadIncidents();
+            });
+            // Else center on Edinburgh Napier
+        } else {
+            /*navigator.geolocation.getCurrentPosition(function (position) {
+                pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                gmap.setCenter(pos);
+                //addMarker(1);
+                loadIncidents();
+            });*/
             pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
+                lat: 55.933611111111105,
+                lng: -3.2130555555555556
+            }
             gmap.setCenter(pos);
-            //addMarker(1);
             loadIncidents();
-        });
+        }
     }
 }
 
@@ -82,7 +103,7 @@ function addMarker(incident) {
     markers.push(marker)
     counter++;
     marker.addListener('click', function () {
-        var user
+        var user;
         $.ajax({
             async:false,
             type: "GET",
@@ -93,26 +114,42 @@ function addMarker(incident) {
             }
 
         })
+        var logged_in_user;
+        $.ajax({
+            async:false,
+            type: "GET",
+            url: "/users/current",
+            timeout: 60000,
+            success: function(data){
+                logged_in_user =  data;
+            }
+
+        })
+        var html = '<div>' +
+            '<ul>' +
+            '<li>Date Created: ' + 
+            incident.date_created +
+            '</li>' +
+            '<li>User:' +
+            user.first_name + 
+            '</li>' +
+            '<li>Cleanup Type:' +
+            incident.incident_type + 
+            '</li>' +
+            '</ul>' +
+            '</div>' +
+            '<div>' +
+            '<img src=' + 
+            incident.image_before + 
+            '/>' +
+            '</div>'
         
-        var html =  '<div>' +
-        '<ul>' +
-        '<li>Date Created: ' + 
-        incident.date_created +
-        '</li>' +
-        '<li>User:' +
-        user.first_name + 
-        '</li>' +
-        '<li>Cleanup Type:' +
-        incident.incident_type + 
-        '</li>' +
-        '</ul>' +
-        '</div>' +
-        '<div>' +
-        '<img src=' + 
-        incident.image_before + 
-        '/>' +
-        '</div>'+
-        '<button onclick="removemarker()" class="btnSmall">Remove</button'
+        if (logged_in_user != "" && (logged_in_user._id == incident.uploader) || logged_in_user.account_level == 100)
+        {
+            html += '<button onclick="removemarker()" class="btnSmall">Remove</button>'
+            console.log("MATCHED: " + logged_in_user._id + " == " + incident.uploader);
+        }
+        
 
         infowindow.setContent(html);
         infowindow.open(gmap, marker);

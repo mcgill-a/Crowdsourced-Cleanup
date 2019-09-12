@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% set active_page = 'index' %}
+
+{% block content %}
+
+<script type="text/javascript" src="{{url_for('static', filename='js/feed.js')}}"></script>
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/profile.css')}}">
+<div class="flashes">
+    {% include 'includes/_messages.html' %}
+</div>
+
+<table id="profileTable">
+    <tr><th>{%  %}</th></tr>
+</table>
+
+{% endblock %}
