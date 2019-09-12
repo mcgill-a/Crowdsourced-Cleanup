@@ -26,7 +26,6 @@ from .forms import SignupForm, LoginForm, UploadForm
 def index():
 	return render_template('index.html')
 
-
 @app.route('/login', methods=['POST', 'GET'])
 def login():
 	if session.get('logged_in'):
@@ -230,10 +229,10 @@ def upload():
 				}
 				
 				print(incident)
-				if incident.lat == 0 and incident.lon == 0:
+				if incident['lat'] == 0 and incident['lon'] == 0:
 					# Tell user could not find location, image was not upload
 					# In future this would let them place pin manually for lat and lon
-					flash("Could not retrieve image location from metadata")
+					flash("Could not retrieve image location from metadata", "danger")
 				else:
 					content.insert(incident)
 					flash("Image uploaded successfully", "success")

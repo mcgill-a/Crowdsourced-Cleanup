@@ -1,0 +1,46 @@
+#feedContainer {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding:10px;
+}
+
+#feed {
+    border-collapse: separate;
+    border-spacing: 0px 5px;
+}
+
+.feedEntry {
+    background: #40c4f8;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.feedEntry:hover {
+    cursor: default;
+}
+
+#refreshBtn {
+    width:40px;
+    border-radius: 50px;
+    box-shadow: 0px 0px 3px gray;
+    margin-bottom: 10px;
+}
+
+#refreshBtn:hover {
+    cursor: pointer;
+}
+
+.clickable {
+    display: inline-block;
+    background: #b8e7fa;
+    padding: 0px 5px 0px 5px;
+    border-radius: 5px;
+}
+
+.clickable:hover {
+    background: #f5fcff;
+    cursor: pointer;
+}

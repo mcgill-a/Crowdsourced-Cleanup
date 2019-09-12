@@ -6,6 +6,10 @@
     {% include 'includes/_messages.html' %}
 </div>
 <div id="map"></div>
+<div id="feedContainer">
+    <img src='/static/resources/default/refresh.webp' id="refreshBtn" onClick="refresh()"/>
+    <table id="feed"></table>
+</div>
 <div class="controls">
     <div id="dropdiv">
         <div class="dropdown">
@@ -28,5 +32,7 @@
 <script type="text/javascript" src="{{url_for('static', filename='js/map.js')}}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxGG-4DJjroDIjlVJwwltXQHTeMlilE54&callback=initMap" async
     defer></script>
+<script type="text/javascript" src="{{url_for('static', filename='js/feed.js')}}"></script>
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/feed.css')}}">
 
 {% endblock %}

@@ -28,5 +28,6 @@ mongo = PyMongo(app)
 print("MongoDB connected successfully")
 users = mongo.db.users
 content = mongo.db.content
+feed = mongo.db.feed
 
 from cleanup import routes
