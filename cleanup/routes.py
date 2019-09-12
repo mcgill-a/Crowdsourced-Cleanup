@@ -34,6 +34,7 @@ def resetValues():
 def thread():
 	while True:
 		schedule.run_pending()
+		time.sleep(1)
 x = None
 x = threading.Thread(target=thread)
 x.daemon = True
