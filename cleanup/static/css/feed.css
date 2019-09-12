@@ -31,6 +31,7 @@
 
 #refreshBtn:hover {
     cursor: pointer;
+    border-radius: 10px;
 }
 
 .clickable {
@@ -43,4 +44,21 @@
 .clickable:hover {
     background: #f5fcff;
     cursor: pointer;
+}
+
+@media screen and (max-width: 450px) {
+    #feedContainer {
+        left: 20px;
+        min-width: 200px;
+        overflow: scroll;
+        text-align: center;
+    }
+
+    #feed {
+        width: 100%;
+    }
+
+    .feedEntry {
+        width: 100%;
+    }
 }
