@@ -234,7 +234,13 @@ def upload():
 					# In future this would let them place pin manually for lat and lon
 					flash("Could not retrieve image location from metadata", "danger")
 				else:
-					content.insert(incident)
+					incidentEntry = content.insertOne(incident)
+					feedObject = {
+						'type' : "new_pin",
+						'incident_id' : incidentEntry['_id'],
+						'user_id' : ""
+					}
+					feed.insert(feedObject)
 					flash("Image uploaded successfully", "success")
 				return redirect('/')
 
@@ -341,24 +347,12 @@ def get_exif(fn):
 
 '''
 
-get all incidents with status available
-
-sort by date
-get latest 20
-
-
-100 score
-
-50 pt badge
-100 pt badge
-
-
-queue
+feed
 
 {
-	type : (cleaned, added, badge earned),
-	incident_id : oid,
-	user_id : oid,
+	type: string,
+	incident_id: string,
+	user_id: string
 }
 
 '''
