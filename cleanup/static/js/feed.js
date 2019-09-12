@@ -3,7 +3,7 @@ $(document).ready(() => {
 });
 
 function refresh () {
-    $.get('/pins', data => {
+    $.get('/feed', data => {
         console.log(data);
         resHTML = "";
         data.forEach(element => {
@@ -11,19 +11,9 @@ function refresh () {
                 console.log(user);
                 resHTML += "<tr><td> User " + user.first_name + " uploaded a new pin!</td></tr>";
             });*/
-            $.ajax({
-                url: '/users?user=' + element.uploader,
-                type: 'GET',
-                async: false,
-                cache: true,
-                timeout: 30000,
-                error: () => {
-                    return true;
-                },
-                success: user => { 
-                    resHTML += "<tr class='feedTR'><td class='feedEntry'>User <div class='clickable' onClick='window.location.href = \"/users?user=" + user._id + "\";'>" + user.first_name + "</div> uploaded a new <div class='clickable' onClick='window.location.href = \"/?pin=" + element._id + "\";'>pin</div> !</td></tr>";
-                }
-            });
+            if (element.type == "new_pin") {
+                resHTML += "<tr class='feedTR'><td class='feedEntry'>User <div class='clickable' onClick='window.location.href = \"/users?user=" + element.user_id + "\";'>" + element.user_first_name + "</div> uploaded a new <div class='clickable' onClick='window.location.href = \"/?pin=" + element.incident_id + "\";'>pin</div> !</td></tr>";
+            }
         });
         $('#feed').html(resHTML);
     });

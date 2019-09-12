@@ -262,9 +262,10 @@ def upload():
 					incidentID = content.insert(incident)
 					feedObject = {
 						'type' : "new_pin",
+						'time' : int(round(time.time() * 1000)),
+						'user_first_name' : current_user['first_name'],
 						'incident_id' : incidentID,
-						'user_id' : "",
-						'time' : datetime.datetime.now()
+						'user_id' : current_user['_id']
 					}
 					feed.insert(feedObject)
 					flash("Image uploaded successfully", "success")
