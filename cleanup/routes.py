@@ -96,9 +96,6 @@ def login():
 		email = form.email.data
 
 		result = users.find_one({'email' : re.compile(email, re.IGNORECASE)})
-		print(result)
-		print(result['password'])
-		print("\n\n")
 		if result is not None:
 			if (bcrypt.checkpw(form.password.data.encode('utf-8'), result['password'])):
 				session['logged_in'] = True

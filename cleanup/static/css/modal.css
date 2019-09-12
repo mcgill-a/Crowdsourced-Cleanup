@@ -111,6 +111,8 @@ form .section input {
 	border-bottom: 1px solid #ccc;
 	width: 100%;
 	padding: 0 2px;
+	font-size: 15px;
+	font-weight: normal;
 }
 .footer {
 	float: right;
