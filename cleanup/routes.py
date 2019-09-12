@@ -80,7 +80,7 @@ def index():
 
 
 
-@app.route('/login', methods=['POST', 'GET'])
+@app.route('/login/', methods=['POST', 'GET'])
 def login():
 	if session.get('logged_in'):
 		#output = "You are already logged in as " + session.get('email')
@@ -117,7 +117,7 @@ def login():
 	return render_template('login.html', form=form)
 
 
-@app.route('/signup', methods=['POST', 'GET'])
+@app.route('/signup/', methods=['POST', 'GET'])
 def signup():
 	if session.get('logged_in'):
 		#output = "You are already logged in as " + session.get('email')
@@ -172,7 +172,7 @@ def signup():
 
 
 
-@app.route('/users')
+@app.route('/users/')
 def getUsers():
 	all_users =[]
 	#Find user from given user id in GET arguments
@@ -180,9 +180,12 @@ def getUsers():
 	#If a specific user is requested
 	if user_id:
 		result = users.find_one({'_id': ObjectId(user_id)})
-		result['_id'] = str(result['_id'])
-		result['password'] = str(result['password'])
-		return jsonify(result)
+		if result:
+			result['_id'] = str(result['_id'])
+			result['password'] = str(result['password'])
+			return jsonify(result)
+		else:
+			return "[]"
 	else: 
 		for x in users.find():
 			x['_id'] = str(x['_id'])
@@ -191,7 +194,7 @@ def getUsers():
 		return jsonify(all_users)
 
 # Getting pin data for AJAX
-@app.route('/pins', methods=['GET'])
+@app.route('/pins/', methods=['GET'])
 def pins():
 	
 	incidents = []
@@ -226,7 +229,7 @@ def is_logged_in(f):
 	return wrap
 
 
-@app.route('/logout')
+@app.route('/logout/')
 def logout():
 	if session.get('logged_in'):
 		session.clear()

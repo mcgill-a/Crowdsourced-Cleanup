@@ -12,28 +12,33 @@
 <div class="controls">
     <div id="dropdiv">
         <div class="dropdown">
-            <button onclick="myFunction()" class="dropbtn"><i class="fa fa-map-marker" aria-hidden="true"></i> Add Marker</button>
+            <button onclick="myFunction()" class="dropbtn">New <i class="fa fa-map-marker" aria-hidden="true"></i></button>
             <div id="myDropdown" class="dropdown-content">
-                <!--<button onclick="addRandomMarker('darkgreen_MarkerC.png')">Cleanup type 1</button>
-                <button onclick="addRandomMarker('pink_MarkerB.png')">Cleanup type 1</button>
-                <button onclick="addRandomMarker('red_MarkerA.png')">Cleanup type 1</button>-->
                 <div class="popup_upload">
-                    {% from "includes/_formhelpers.html" import render_field %}
-                    <form method='POST' action="/upload/" enctype="multipart/form-data">
+                    
+                        <h3 class="header">{{upload_form.image.label()}}</h3>
                         <div class="section">
-                            {{upload_form.image.label()}}
-                            {{upload_form.image(class="form-control-file")}}
-                            {% if upload_form.image.errors %}
-                            {% for error in upload_form.image.errors %}
-                            <p class="error">{{ error }}</p>
-                            {% endfor %}
+                            {% if current_user.is_authenticated %}
+                                {% from "includes/_formhelpers.html" import render_field %}
+                                <form method='POST' action="/upload/" enctype="multipart/form-data"></form>    
+                                    {{upload_form.image(class="form-control-file")}}
+                                    {% if upload_form.image.errors %}
+                                        {% for error in upload_form.image.errors %}
+                                        <p class="error">{{ error }}</p>
+                                        {% endfor %}
+                                        {% endif %}
+                                        <div class="footer">
+                                            <button type="submit">Submit</button>
+                                        </div>
+                                        {{ upload_form.hidden_tag() }}
+                                </form>
+                            {% else %}
+                                <div class="alert">
+                                    <p>Login Required</p>
+                                </div>
+                                <a href="/login">Click here to login</a>
                             {% endif %}
-                            <div class="footer">
-                                <button type="submit">Submit</button>
-                            </div>
-                            {{ upload_form.hidden_tag() }}
                         </div>
-                    </form>
                 </div>
             </div>
         </div>
