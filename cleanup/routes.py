@@ -269,7 +269,6 @@ def upload():
 	id = str(current_user['_id'])
 	if id is not None and bson.objectid.ObjectId.is_valid(id):
 		user = users.find_one({'_id' : ObjectId(id)})
-
 		if str(current_user['_id']) == id:
 			if request.method == 'POST' and upload_form.validate():
 				
@@ -293,13 +292,13 @@ def upload():
 					'cleaner' : "",
 					'incident_type' : "Trash"
 				}
-				
-				print(incident)
 				if incident['lat'] == 0 and incident['lon'] == 0:
 					# Tell user could not find location, image was not upload
 					# In future this would let them place pin manually for lat and lon
 					flash("Could not retrieve image location from metadata", "danger")
 				else:
+					current_user['score'] = current_user['score'] + 2
+					users.save(current_user)
 					incidentID = content.insert(incident)
 					feedObject = {
 						'type' : "new_pin",
