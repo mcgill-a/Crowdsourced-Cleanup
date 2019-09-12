@@ -34,11 +34,11 @@ def resetValues():
 def thread():
 	while True:
 		schedule.run_pending()
-		time.sleep(1)
-x = None
-x = threading.Thread(target=thread)
-x.daemon = True
-x.start()
+		time.sleep(60)
+		x = None
+		x = threading.Thread(target=thread)
+		x.daemon = True
+		x.start()
 
 def job():
 	print("scheduled job running...")
