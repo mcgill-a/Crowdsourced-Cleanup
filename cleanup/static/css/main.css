@@ -1,5 +1,6 @@
 #map {
     height: 100%;
+    z-index: -1;
 }
 
 /* Optional: Makes the sample page fill the window. */
@@ -26,14 +27,9 @@ body {
 }
 
 #dropdiv {
-    position: absolute;
-    bottom: 1%;
-    left:1%;
     z-index: 5;
     padding: 5px;
 }
-
-
 
 ul {
     margin: 0;
@@ -47,13 +43,13 @@ ul {
 .dropbtn {
     background-color: #3498DB;
     color: white;
-    padding: 16px;
+    padding: 7px;
     font-size: 16px;
     border: none;
     cursor: pointer;
 }
 
-.btnSmall{
+.btnSmall {
     background-color: #3498DB;
     color: white;
     padding: 10px;
@@ -101,5 +97,58 @@ ul {
     display: block;
 }
 
+.controls {
+    position: absolute;
+    bottom: 1%;
+    left: 1%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
 
+.search-container {
+    float: right;
+    right: 10px;
+    margin: 0 auto;
+}
 
+input[type=text] {
+    padding: 6px;
+    font-size: 17px;
+    border: none;
+}
+
+.search-container button {
+    float: right;
+    padding: 6px 10px;
+    margin: 0;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+}
+
+.search-container button:hover {
+    background: #ccc;
+}
+
+@media screen and (max-width: 600px) {
+    .search-container {
+        float: none;
+    }
+
+    input[type=text],
+    .search-container button {
+        float: none;
+        display: block;
+        text-align: left;
+        width: 100%;
+        margin: 0;
+        padding: 14px;
+    }
+
+    input[type=text] {
+        border: 1px solid #ccc;
+    }
+}

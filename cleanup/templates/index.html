@@ -6,17 +6,25 @@
     {% include 'includes/_messages.html' %}
 </div>
 <div id="map"></div>
-
-<div id="dropdiv">
-    <div class="dropdown">
-        <button onclick="myFunction()" class="dropbtn">Add Marker</button>
-        <div id="myDropdown" class="dropdown-content">
-            <button onclick="addRandomMarker('darkgreen_MarkerC.png')">Cleanup type 1</button>
-            <button onclick="addRandomMarker('pink_MarkerB.png')" >Cleanup type 1</button>
-            <button onclick="addRandomMarker('red_MarkerA.png')" >Cleanup type 1</button>
+<div class="controls">
+    <div id="dropdiv">
+        <div class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">Add Marker</button>
+            <div id="myDropdown" class="dropdown-content">
+                <button onclick="addRandomMarker('darkgreen_MarkerC.png')">Cleanup type 1</button>
+                <button onclick="addRandomMarker('pink_MarkerB.png')">Cleanup type 1</button>
+                <button onclick="addRandomMarker('red_MarkerA.png')">Cleanup type 1</button>
+            </div>
         </div>
     </div>
+    <div class="search-container">
+        <form action="#">
+            <input type="text" placeholder="Search.." name="location">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
 </div>
+
 <script type="text/javascript" src="{{url_for('static', filename='js/map.js')}}"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxGG-4DJjroDIjlVJwwltXQHTeMlilE54&callback=initMap" async
     defer></script>
