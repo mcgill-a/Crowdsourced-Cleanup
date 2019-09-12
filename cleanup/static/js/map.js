@@ -27,18 +27,39 @@ function initMap() {
         '<div>' +
         '<img src="/static/resources/default/trash-icon.jpg"/>' +
         '</div>'+
-        '<button onclick="removemarker()" class="btnSmall">Remove</button')
+        '<button onclick="removemarker()" class="btnSmall">Remove</button');
 
+    const urlParams = new URLSearchParams(window.location.search);
+    
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
+        // If we have a pin query, ajax the pin and center on its lat lon
+        if (urlParams.get('pin')) {
+            $.get("/pins?pin=" + urlParams.get('pin'), data => {
+                pos = {
+                    lat: data.lat,
+                    lng: data.lon
+                };
+                gmap.setCenter(pos);
+                loadIncidents();
+            });
+            // Else center on Edinburgh Napier
+        } else {
+            /*navigator.geolocation.getCurrentPosition(function (position) {
+                pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                gmap.setCenter(pos);
+                //addMarker(1);
+                loadIncidents();
+            });*/
             pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
+                lat: 55.933611111111105,
+                lng: -3.2130555555555556
+            }
             gmap.setCenter(pos);
-            //addMarker(1);
             loadIncidents();
-        });
+        }
     }
 }
 
