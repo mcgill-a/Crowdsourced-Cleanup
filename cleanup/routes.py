@@ -101,11 +101,14 @@ def login():
 
 		result = users.find_one({'email' : re.compile(email, re.IGNORECASE)})
 		if result is not None:
-			if (bcrypt.checkpw(form.password.data.encode('utf-8'), result['password'])):
+			#if (bcrypt.checkpw(form.password.data.encode('utf-8'), result['password'])):
+			if (form.password.data == result['password']):
+
 				session['logged_in'] = True
 				session['email'] = result.get('email')
 				session['id'] = str(result.get('_id'))
 				session['fullname'] = result.get('first_name') + " " + result.get('last_name')
+				session['account_level'] = result.get('account_level')
 				#flash('You are now logged in', 'success')
 				print(session.get('email') + " has logged in")
 				return redirect(url_for('index'))
@@ -153,7 +156,8 @@ def signup():
 			flash('Account already exists', 'danger')
 			return render_template('signup.html', form=form)
 		if existing_user is None:
-			hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
+			#hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
+			hashpass = request.form['password']
 			users.insert({
 				'first_name' : first_name,
 				'last_name' : last_name,
@@ -215,7 +219,7 @@ def get_current_user_id():
 			session.clear()
 	return ""
 
-
+@app.route('/profiles')
 @app.route('/profiles/<id>')
 def profile(id=None):
 	if id is not None and bson.objectid.ObjectId.is_valid(id):
@@ -235,16 +239,24 @@ def pins():
 		current['uploader'] = str(current['uploader'])
 		current['cleaner'] = str(current['cleaner'])
 		incidents.append(current)
-	# Find pin from given pin id in GET arguments
+	# Find pin from given pin id in GET arguments or user ID
 	pin_id = request.args.get('pin')
+	user_id = request.args.get('user')
 	# If a specific pin is requested...
 	if not pin_id == None:
 		# ... Search through the incidents until the right one is found
 		for incident in incidents:
-			if str(incident['_id']) == pin_id:
+			if incident['_id'] == pin_id:
 				return jsonify(incident)
 		# If none are found return 404
 		return '404'
+	elif not user_id == None:
+		# If a user ID is requested, return incidents related to the user
+		related = []
+		for incident in incidents:
+			if incident["uploader"] == user_id or incident['cleaner'] == user_id:
+				related.append(incident)
+		return jsonify(related)
 	else:
 		# If no specific pin is requested, return them all
 		return jsonify(incidents)
@@ -287,9 +299,21 @@ def pins_report():
 
 
 @app.route('/reports/', methods=['GET'])
-def reports():
+def report_page():
 	## if level 100 then allow access
-	return render_template('reports.html')
+
+	all_reports = []
+	cursor = reports.find()
+	for current in cursor:
+		all_reports.append(current)
+	
+	if session.get('logged_in'):
+		result = users.find_one({'_id': ObjectId(session.get('id'))})
+		if result is not None:
+			if result['account_level'] == 100:
+				return render_template('reports.html', all_reports=all_reports)
+	flash("Access denied", "danger")
+	return redirect('/')
 
 @app.route('/pins/clean/', methods=['POST'])
 def clean():

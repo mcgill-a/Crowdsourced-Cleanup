@@ -10,32 +10,34 @@
 <button onclick="refreshMarkers()" class="btn_refresh">Refresh</button>
 <div id="feedContainer">
     <table id="feed"></table>
+    <i class="fas fa-bars" id="feedToggle" onclick="toggleFeed()"></i>
 </div>
 <div class="controls">
     <div id="dropdiv">
         <div class="dropdown">
-            <button onclick="myFunction()" class="dropbtn">New <i class="fa fa-map-marker" aria-hidden="true"></i></button>
+            <button onclick="myFunction()" class="dropbtn">New <i class="fa fa-map-marker"
+                    aria-hidden="true"></i></button>
             <div id="myDropdown" class="dropdown-content">
                 <div class="popup_upload">
-                    
-                        <h3 class="header">{{upload_form.image.label()}}</h3>
-                        <div class="section">
-                            {% if session['logged_in'] %}
-                                {% from "includes/_formhelpers.html" import render_field %}
-                                <form method='POST' action="/upload/" enctype="multipart/form-data">   
-                                    {{upload_form.image(class="form-control-file")}}
-                                        <div class="footer">
-                                            <button onclick="myFunction()" type="submit" >Submit</button>
-                                        </div>
-                                        {{ upload_form.hidden_tag() }}
-                                </form>
-                            {% else %}
-                                <div class="alert alert-danger">
-                                    <p>Login Required</p>
-                                </div>
-                                <a href="/login">Click here to login or sign up</a>
-                            {% endif %}
+
+                    <h3 class="header">{{upload_form.image.label()}}</h3>
+                    <div class="section">
+                        {% if session['logged_in'] %}
+                        {% from "includes/_formhelpers.html" import render_field %}
+                        <form method='POST' action="/upload/" enctype="multipart/form-data">
+                            {{upload_form.image(class="form-control-file")}}
+                            <div class="footer">
+                                <button onclick="myFunction()" type="submit">Submit</button>
+                            </div>
+                            {{ upload_form.hidden_tag() }}
+                        </form>
+                        {% else %}
+                        <div class="alert alert-danger">
+                            <p>Login Required</p>
                         </div>
+                        <a href="/login">Click here to login or sign up</a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,12 +51,18 @@
     <div class="stats">
         <p>TOTAL: {{total_cleaned}}</p>
     </div>
+    {% if session['account_level'] and session['account_level'] == 100 %}
+        <div class="report_icon">
+            <a href="/reports/"><i class="fas fa-exclamation-triangle"></i></a>
+        </div>
+    {% endif %}
 </div>
 
 
 <script type="text/javascript" src="{{url_for('static', filename='js/map.js')}}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxGG-4DJjroDIjlVJwwltXQHTeMlilE54&libraries=visualization&callback=initMap" async
-    defer></script>
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxGG-4DJjroDIjlVJwwltXQHTeMlilE54&libraries=visualization&callback=initMap"
+    async defer></script>
 <script type="text/javascript" src="{{url_for('static', filename='js/feed.js')}}"></script>
 <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/feed.css')}}">
 

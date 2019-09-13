@@ -1,6 +1,6 @@
 aniso8601==4.1.0
 astroid==2.1.0
-bcrypt==3.1.6
+bcrypt==3.1.7
 blinker==1.4
 cffi==1.12.1
 Click==7.0

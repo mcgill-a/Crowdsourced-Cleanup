@@ -7,7 +7,7 @@
     border-radius: 10px;
     padding:10px;
     min-width: 200px;
-    min-height:100px;
+    min-height: 100px;
     max-height: 225px;
     overflow-y: scroll;
 }
@@ -16,6 +16,14 @@
     border-collapse: separate;
     border-spacing: 0px 5px;
     max-height: 100%;
+}
+
+#feedToggle {
+    display: none;
+}
+
+#feedToggle:hover {
+    cursor: pointer;
 }
 
 .feedEntry {
@@ -41,16 +49,26 @@
 }
 
 @media screen and (max-width: 450px) {
-    #feedContainer {
-        left: 20px;
-        min-width: 200px;
-        overflow: scroll;
-        text-align: center;
-        max-height: 160px;
-    }
 
     #feed {
-        width: 100%;
+        display: none;
+    }
+
+    #feedContainer {
+        display: flex;
+        flex-direction: row;
+        min-width: 0px;
+        min-height:0px;
+        max-height: 100%;
+    }
+
+    #feedToggle {
+        display: inline-block;
+    }
+
+    .feedTBody {
+        text-align: center;
+        margin: auto;
     }
 
     .feedEntry {

@@ -259,6 +259,21 @@ button.dropbtn {
     padding: 10px;
 }
 
+.report_icon {
+    padding: 5px 10px;
+    background: rgb(194, 58, 58);
+    color: white;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5px;
+}
+
+.report_icon a {
+    color: white;
+}
+
 
 /* Dropdown button on hover & focus */
 .dropbtn:hover,
