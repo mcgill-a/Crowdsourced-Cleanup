@@ -10,6 +10,7 @@
 }
 
 .modal-popup {
+	text-align: left;
 	display: none;
 	position: fixed;
 	left: 0;
