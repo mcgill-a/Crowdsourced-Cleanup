@@ -7,7 +7,7 @@
 $(document).ready(() => {
 
     $.get('/feed?user={{user_profile._id}}', data => {
-        resHTML = "<tbody>";
+        resHTML = "<tbody style='width: 100%'>";
         data.forEach(feed => {
             resHTML += "<tr><td class='historyEntry'>";
             var incident = null;
