@@ -88,10 +88,11 @@ def index():
 @app.route('/login/', methods=['POST', 'GET'])
 def login():
 	if session.get('logged_in'):
-		#output = "You are already logged in as " + session.get('email')
-		#flash(output, 'warning')
-		print(session.get('email') + " is already logged in")
-		return redirect(url_for('index'))
+		result = users.find_one({'_id': ObjectId(session.get('id'))})
+		if result is None:
+			session.clear()
+		else:
+			return redirect(url_for('index'))
 	
 	ip = request.environ['REMOTE_ADDR']
 	form = LoginForm(request.form)
@@ -122,9 +123,11 @@ def login():
 @app.route('/signup/', methods=['POST', 'GET'])
 def signup():
 	if session.get('logged_in'):
-		#output = "You are already logged in as " + session.get('email')
-		#flash(output, 'warning')
-		return redirect(url_for('index'))
+		result = users.find_one({'_id': ObjectId(session.get('id'))})
+		if result is None:
+			session.clear()
+		else:
+			return redirect(url_for('index'))
 	
 	form = SignupForm(request.form)
 	if request.method == 'POST' and form.validate():
@@ -204,11 +207,13 @@ def get_current_user_id():
 	#Find user from given user id in GET arguments
 	if session.get('logged_in'):
 		result = users.find_one({'_id': ObjectId(session.get('id'))})
-		result['_id'] = str(result['_id'])
-		result['password'] = str(result['password'])
-		return jsonify(result)
-	else:
-		return ""
+		if result is not None:
+			result['_id'] = str(result['_id'])
+			result['password'] = str(result['password'])
+			return jsonify(result)
+		else:
+			session.clear()
+	return ""
 
 
 # Getting pin data for AJAX

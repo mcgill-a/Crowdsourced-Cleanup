@@ -202,6 +202,9 @@ function addMarker(incident) {
             '<li>Status: ' +
             incident.status + 
             '</li>' +
+            '<li>Value: ' +
+            incident.value + 
+            '</li>' +
             '</ul>' +
             '</div>' +
             '<div>' +
