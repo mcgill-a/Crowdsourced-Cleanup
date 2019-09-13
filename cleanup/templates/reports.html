@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<script type="text/javascript" src="{{url_for('static', filename='js/feed.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='js/map.js')}}"></script>
 <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/profile.css')}}">
 <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/modal.css')}}">
 <div class="page-background">
@@ -14,10 +14,38 @@
                     {% include 'includes/_messages.html' %}
                 </div>
                 <div class="profile">
-                    {% for report in all_reports %}
-                    <p>Report: {{report}}</p>
-                    {% endfor %}
-
+                        <div class="table-responsive">
+                                <!--Table-->
+                                <table class="table table-striped w-auto ">
+                              
+                                  <!--Table head-->
+                                  <thead>
+                                    <tr>
+                                      <th>#</th>
+                                      <th>Date</th>
+                                      <th>Incident ID</th>
+                                      <th>Reporter</th>
+                                      <th>Status</th>
+                                    </tr>
+                                  </thead>
+                                  <!--Table head-->
+                              
+                                  <!--Table body-->
+                                  <tbody>
+                                    {% for report in all_reports %}
+                                        <tr>
+                                            <th scope="row">{{loop.index}}</th>
+                                            <td>{{report.date}}</td>
+                                            <td><a href="/?pin={{report.incident_id}}">{{report.incident_id}}</a></td>
+                                            <td><a href="/users?user={{report.reporter}}">{{report.reporter}}</a></td>
+                                            <td>{{report.status}}</td>
+                                          </tr>
+                                    {% endfor %}
+                                  </tbody>
+                                  <!--Table body-->
+                                </table>
+                                <!--Table-->
+                              </div>
                 </div>
             </div>
         </div>
