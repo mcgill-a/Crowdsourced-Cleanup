@@ -19,7 +19,8 @@ function initMap() {
 
     heatmap = new google.maps.visualization.HeatmapLayer({
         data: getPoints(),
-        map: gmap
+        map: gmap,
+        radius: 30
     })
    
     infowindow.setContent('<div>' +
@@ -88,7 +89,6 @@ function loadIncidents()
 }
 
 function toggleHeatmap(){
-    console.log("clicked");
     heatmap.setMap(heatmap.getMap() ? null : gmap);
 }
 
