@@ -10,42 +10,48 @@
     <div id="userModal" class="modal-popup" style="display: block;">
         <div class="center_modal">
             <div class="modal-popup-content white-bg larger-table">
-                <div class="flashes">
-                    {% include 'includes/_messages.html' %}
-                </div>
-                <div class="report-table">
+                <div class="top">
+                    <div class="flashes">
+                        {% include 'includes/_messages.html' %}
+                    </div>
+                    <div class="report-table">
                         <div class="table-responsive">
-                                <!--Table-->
-                                <table class="table table-striped w-auto ">
-                              
-                                  <!--Table head-->
-                                  <thead>
+                            <!--Table-->
+                            <table class="table table-striped w-auto ">
+
+                                <!--Table head-->
+                                <thead>
                                     <tr>
-                                      <th>#</th>
-                                      <th>Date</th>
-                                      <th>Incident ID</th>
-                                      <th>Reporter</th>
-                                      <th>Status</th>
+                                        <th>#</th>
+                                        <th>Date</th>
+                                        <th>Incident ID</th>
+                                        <th>Reporter</th>
+                                        <th>Status</th>
                                     </tr>
-                                  </thead>
-                                  <!--Table head-->
-                              
-                                  <!--Table body-->
-                                  <tbody>
+                                </thead>
+                                <!--Table head-->
+
+                                <!--Table body-->
+                                <tbody>
                                     {% for report in all_reports %}
-                                        <tr>
-                                            <th scope="row">{{loop.index}}</th>
-                                            <td>{{report.date}}</td>
-                                            <td><a href="/?pin={{report.incident_id}}">{{report.incident_id}}</a></td>
-                                            <td><a href="/users?user={{report.reporter}}">{{report.reporter}}</a></td>
-                                            <td>{{report.status}}</td>
-                                          </tr>
+                                    <tr>
+                                        <th scope="row">{{loop.index}}</th>
+                                        <td>{{report.date}}</td>
+                                        <td><a href="/?pin={{report.incident_id}}">{{report.incident_id}}</a></td>
+                                        <td><a href="/users?user={{report.reporter}}">{{report.reporter}}</a></td>
+                                        <td>{{report.status}}</td>
+                                    </tr>
                                     {% endfor %}
-                                  </tbody>
-                                  <!--Table body-->
-                                </table>
-                                <!--Table-->
-                              </div>
+                                </tbody>
+                                <!--Table body-->
+                            </table>
+                            <!--Table-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <a href="/" class="back">BACK</a>
                 </div>
             </div>
         </div>

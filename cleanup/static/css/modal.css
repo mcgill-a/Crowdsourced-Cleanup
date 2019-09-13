@@ -58,7 +58,13 @@
 	animation-name: modalOpen;
 	animation-duration: 1s;
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.modal-popup-content .footer {
+	margin: 20px;
+	justify-content: flex-end;
 }
  .modal-popup-content .left {
 	width: 600px;
