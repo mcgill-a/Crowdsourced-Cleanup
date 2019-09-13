@@ -188,8 +188,12 @@ function addMarker(incident) {
             '<img class="popup_img" src=' + 
             incident.image_before + 
             '/>' +
-            '</div>' +
-            '<div class="marker_buttons"><button onclick="clean()" class="popup_btn clean" onclick="window.location.href = \'/cleanup?pin=' + incident._id +'\'"><p>CLEAN</p><i class="fas fa-clipboard-check"></i></button>'
+            '</div>'
+        
+        if (incident.status == "Available")
+        {
+            html += '<div class="marker_buttons"><button onclick="clean()" class="popup_btn clean" onclick="window.location.href = \'/cleanup?pin=' + incident._id +'\'"><p>CLEAN</p><i class="fas fa-clipboard-check"></i></button>'
+        }
         
         if (logged_in_user != "" && (logged_in_user._id == incident.uploader) || logged_in_user.account_level == 100)
         {
