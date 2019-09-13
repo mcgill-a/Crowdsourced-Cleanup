@@ -9,7 +9,7 @@
 <div class="page-background">
     <div id="userModal" class="modal-popup" style="display: block;">
         <div class="center_modal">
-            <div class="modal-popup-content white-bg larger">
+            <div class="modal-popup-content white-bg larger profile-container">
                 <div class="flashes">
                     {% include 'includes/_messages.html' %}
                 </div>
@@ -17,6 +17,7 @@
                     {% if user_profile.account_level == 100 %}
                     <p>Admin</p>
                     {% endif %}
+                    <i class="fas fa-address-card profile-icon"></i>
                     <h1>{{user_profile.first_name}} {{user_profile.last_name}}</h1>
                     <h3>Score: {{user_profile.score}}</h3>
                 </div>
