@@ -45,8 +45,15 @@ function initMap() {
                     lat: data.lat,
                     lng: data.lon
                 };
-                gmap.setCenter(pos);
                 loadIncidents();
+                gmap.setCenter(pos);
+                for (var i=0; i < markers.length; i++){
+                    if (markers[i].position.lat().toFixed(10) == pos.lat.toFixed(10) && markers[i].position.lng().toFixed(10) == pos.lng.toFixed(10)) {
+
+                        google.maps.event.trigger(markers[i], 'click')
+                    
+                    }
+                }
             });
             // Else center on Edinburgh Napier
         } else {
@@ -71,6 +78,7 @@ function initMap() {
 
 function loadIncidents()
 {
+    markers = [];
     var incidents
     $.ajax({
         async:false,
@@ -83,6 +91,7 @@ function loadIncidents()
             for (var i = 0; i < incidents.length; i++)
             {
                 addMarker(incidents[i]);
+                
             }
         }
     });
@@ -131,7 +140,8 @@ function addMarker(incident) {
         id: counter,
         dboid: incident._id
     });
-    markers.push(marker)
+    
+    markers.push(marker);
     counter++;
     marker.addListener('click', function () {
         var user;
