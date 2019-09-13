@@ -9,7 +9,7 @@ from os.path import join
 from bson.objectid import ObjectId
 from functools import wraps
 from flask import Flask, render_template, request, redirect, jsonify, session, abort, flash, url_for
-from cleanup import app, login_manager, users, content, feed
+from cleanup import app, login_manager, users, content, feed, totals
 from operator import itemgetter
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import configparser, logging, os, json, random, re, string, datetime, bcrypt, urllib, hashlib, bson, math
@@ -76,12 +76,13 @@ schedule.every(10).minutes.do(job)
 
 @app.route('/', methods=['GET'])
 def index():
-
 	upload_form = UploadForm()
 	upload_form.image.data = ""
 
-	return render_template('index.html', upload_form=upload_form)
+	total = totals.find_one()
+	total_cleaned = total['total_cleaned']
 
+	return render_template('index.html', upload_form=upload_form, total_cleaned=total_cleaned)
 
 
 @app.route('/login/', methods=['POST', 'GET'])
@@ -280,6 +281,12 @@ def clean():
 			'user_id' : current_user['_id']
 		}
 		feed.insert(feedObject)
+
+		# Update the trash cleaned tracker
+		total = totals.find_one()
+		total['total_cleaned'] = total['total_cleaned'] + 1
+		totals.save(total)
+
 		flash("Cleaned trash successfully", "success")
 		return redirect('/')
 

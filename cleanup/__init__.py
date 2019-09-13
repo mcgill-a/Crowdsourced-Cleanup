@@ -29,5 +29,6 @@ print("MongoDB connected successfully")
 users = mongo.db.users
 content = mongo.db.content
 feed = mongo.db.feed
+totals = mongo.db.totals
 
 from cleanup import routes

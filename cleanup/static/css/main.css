@@ -23,6 +23,21 @@ body {
 
 }
 
+.stats {
+    width: 120px;
+    height: 38px;
+    background: white;
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.stats p {
+    margin: 0;
+}
+
 .btn_heatmap {
     position: fixed;
     border: none;
@@ -86,13 +101,14 @@ ul {
 
 
 /* Dropdown Button */
-.dropbtn {
+button.dropbtn {
     background-color: #3498DB;
     color: white;
-    padding: 7px;
+    padding: 8px;
     font-size: 16px;
     border: none;
     cursor: pointer;
+    height: 38px;
 }
 
 .marker_buttons {
