@@ -204,7 +204,7 @@ function addMarker(incident) {
         })
         var html = '<div>' +
             '<ul>' +
-            '<li>Date Created: ' + 
+            '<li>' + 
             incident.date_created +
             '</li>' +
             '<li>Added by: ' +
