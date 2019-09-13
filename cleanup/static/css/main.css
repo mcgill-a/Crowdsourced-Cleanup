@@ -24,10 +24,10 @@ body {
 }
 
 .btn_heatmap {
-    position: absolute;
+    position: fixed;
     border: none;
     top: 10px;
-    left: 178px;
+    left: 203px;
     z-index: 150;
     direction: ltr; 
     overflow: hidden; 
