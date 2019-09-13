@@ -271,6 +271,7 @@ def pins_delete():
 	incident_id = request.args.get('incident_id')
 	content.delete_one({"_id" : ObjectId(incident_id)})
 	feed.delete_many({"incident_id" : ObjectId(incident_id)})
+	reports.delete_many({"incident_id" : ObjectId(incident_id)})
 	return incident_id
 
 
