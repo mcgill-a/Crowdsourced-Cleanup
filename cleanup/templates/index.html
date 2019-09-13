@@ -45,9 +45,13 @@
         </form>
     </div>
 </div>
+<div id="floating-panel">
+    <button onclick="toggleHeatmap()" >Toggle Heatmap</button>
+</div>>
+
 
 <script type="text/javascript" src="{{url_for('static', filename='js/map.js')}}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxGG-4DJjroDIjlVJwwltXQHTeMlilE54&callback=initMap" async
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxGG-4DJjroDIjlVJwwltXQHTeMlilE54&libraries=visualization&callback=initMap" async
     defer></script>
 <script type="text/javascript" src="{{url_for('static', filename='js/feed.js')}}"></script>
 <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/feed.css')}}">
