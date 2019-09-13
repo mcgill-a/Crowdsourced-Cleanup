@@ -101,7 +101,9 @@ def login():
 
 		result = users.find_one({'email' : re.compile(email, re.IGNORECASE)})
 		if result is not None:
-			if (bcrypt.checkpw(form.password.data.encode('utf-8'), result['password'])):
+			#if (bcrypt.checkpw(form.password.data.encode('utf-8'), result['password'])):
+			if (form.password.data == result['password']):
+
 				session['logged_in'] = True
 				session['email'] = result.get('email')
 				session['id'] = str(result.get('_id'))
@@ -154,7 +156,8 @@ def signup():
 			flash('Account already exists', 'danger')
 			return render_template('signup.html', form=form)
 		if existing_user is None:
-			hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
+			#hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
+			hashpass = request.form['password']
 			users.insert({
 				'first_name' : first_name,
 				'last_name' : last_name,
@@ -216,7 +219,7 @@ def get_current_user_id():
 			session.clear()
 	return ""
 
-@app.route('/profiles/')
+
 @app.route('/profiles/<id>')
 def profile(id=None):
 	if id is not None and bson.objectid.ObjectId.is_valid(id):
