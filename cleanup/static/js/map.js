@@ -140,6 +140,11 @@ function addMarker(incident) {
         id: counter,
         dboid: incident._id
     });
+
+    if (incident.status == "Complete") 
+    {
+        marker.icon = '/static/resources/default/markers/marker_c.png';
+    }
     
     markers.push(marker);
     counter++;
