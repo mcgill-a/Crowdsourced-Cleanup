@@ -21,7 +21,7 @@ $(document).ready(() => {
                 }
             });
             resHTML += "<p class='date'>" + incident.date_created + "</p><a href='/?pin=" + feed.incident_id + "'><h4>" + (feed.type == "new_pin" ? "Added new pin" : "Cleaned up trash!") +
-                "</h4><img class='history-img' src='https://cleanup.alexmcgill.net/" + incident.image_before + "'/></a><hr/></td></tr>";
+                "</h4><img class='history-img' src='/" + incident.image_before + "'/></a><hr/></td></tr>";
         });
         resHTML += "</tbody>";
         $("#history-table").html(resHTML);
@@ -46,6 +46,8 @@ $(document).ready(() => {
                         <p>Admin</p>
                         {% endif %}
                         <h3>Score: {{user_profile.score}}</h3>
+                        <button class="dropbtn" onclick="window.location.href = '/'">Back</button>
+                        <br/>
                     </div>
                     <div class='user-history'>
                         <table id="history-table">
