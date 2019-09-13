@@ -1,10 +1,8 @@
 Considering incident: 5d7aa9f2f63a325ebf6db111
 hour difference for incdent is 4
 difference is greater than 0
-saving new score 40
 Considering incident: 5d7ad88f544d72a28c67002b
 hour difference for incdent is 1
 difference is greater than 0
-saving new score 25
 Considering incident: 5d7ad894fed15ab9bf5a3fb4
 hour difference for incdent is 0

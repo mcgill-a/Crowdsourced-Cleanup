@@ -375,7 +375,22 @@ def store_uploaded_image(form_pic, profile_user_id):
 
 	img = Image.open(form_pic)
 	exif_data = img._getexif()
+	
+	try:
+		for orientation in ExifTags.TAGS.keys():
+			if ExifTags.TAGS[orientation] == 'Orientation':
+				break
+		exif_items = dict(img._getexif().items())
+		print(exif_items[orientation])
+		if exif_items[orientation]== 3:
+			img = img.rotate(180, expand=True)
+		if exif_items[orientation]== 6:
+			img = img.rotate(270, expand=True)
+		if exif_items[orientation]== 8:
+			img = img.rotate(90, expand=True)
 
+	except Exception as e:
+		print(e)
 	a = get_exif(form_pic)
 
 	date_taken = ""
