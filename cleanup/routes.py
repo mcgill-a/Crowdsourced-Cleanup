@@ -219,6 +219,7 @@ def pins():
 	for current in db_content:
 		current['_id'] = str(current['_id'])
 		current['uploader'] = str(current['uploader'])
+		current['cleaner'] = str(current['cleaner'])
 		incidents.append(current)
 	# Find pin from given pin id in GET arguments
 	pin_id = request.args.get('pin')
@@ -235,12 +236,53 @@ def pins():
 		return jsonify(incidents)
 
 
-# Getting pin data for AJAX
+
 @app.route('/pins/delete/', methods=['POST'])
 def pins_delete():
 	incident_id = request.args.get('incident_id')
 	content.delete_one({"_id" : ObjectId(incident_id)})
 	feed.delete_one({"incident_id" : ObjectId(incident_id)})
+	return incident_id
+
+
+@app.route('/pins/clean/', methods=['POST'])
+def clean():
+	
+	current_user = None
+	if session.get('logged_in'):
+		current_user = users.find_one({'_id' : ObjectId(session.get('id'))})
+	else:
+		flash('Access restricted. Please login first', 'danger')
+		return redirect(url_for('login'))
+
+	incident_id = request.args.get('incident_id')
+	incident = content.find_one({'_id' : ObjectId(incident_id)})
+	
+	if(incident['status'] == "Available"):
+		
+		# Update the incident
+		incident['date_cleaned'] = datetime.datetime.now()
+		incident['cleaner'] = current_user['_id']
+		incident['status'] = "Complete"
+		content.save(incident)
+		# -- would also update after image here.. not in this version
+
+		# Give the user points
+		current_user['score'] = current_user['score'] + incident['value']
+		users.save(current_user)
+
+		# Update the feed
+		feedObject = {
+			'type' : "clean",
+			'time' : int(round(time.time() * 1000)),
+			'user_first_name' : current_user['first_name'],
+			'incident_id' : incident['_id'],
+			'user_id' : current_user['_id']
+		}
+		feed.insert(feedObject)
+		flash("Cleaned trash successfully", "success")
+		return redirect('/')
+
 	return incident_id
 
 
