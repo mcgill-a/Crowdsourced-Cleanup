@@ -165,7 +165,8 @@ form .section input:focus {
 	}
 
 	.modal-popup-content .right {
-		width: 70%;
+		width: 90%;
+		padding: 30px;
 		border-radius: 10px 10px 10px 10px !important;
 	}
 
