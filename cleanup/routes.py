@@ -219,7 +219,7 @@ def get_current_user_id():
 			session.clear()
 	return ""
 
-
+@app.route('/profiles')
 @app.route('/profiles/<id>')
 def profile(id=None):
 	if id is not None and bson.objectid.ObjectId.is_valid(id):
