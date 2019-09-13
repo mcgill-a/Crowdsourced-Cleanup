@@ -70,6 +70,20 @@ function initMap() {
     }
 }
 
+function getPinFromID(idVal){
+    var incident; 
+    $.ajax({
+        async:false,
+        type:"GET",
+        url:"/pins/?pin=" + idVal,
+        timeout: 60000,
+        success: function(data){
+            incident = data;
+        }
+    });
+    return incident;
+}
+
 function goToPin(idVal){
     var incident ;
     console.log("/pins/?=pin" + idVal);
@@ -98,6 +112,7 @@ function goToPin(idVal){
 }
 function loadIncidents()
 {
+    console.log("loading");
     markers = [];
     var incidents
     $.ajax({
@@ -286,8 +301,12 @@ function clean(){
         timeout: 60000,
         success: function(data){
             console.log("POST: CLEAN " + marker.dboid);
+           
         }
     })
+
+    marker.setIcon ('/static/resources/default/markers/marker_c.png');
+
 }
 
 function report(){
@@ -302,4 +321,10 @@ function report(){
             console.log("POST: REPORT " + marker.dboid);
         }
     })
+}
+
+function refreshMarkers(){
+   
+    console.log("refreshing");
+    loadIncidents();
 }

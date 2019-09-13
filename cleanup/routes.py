@@ -219,7 +219,7 @@ def get_current_user_id():
 			session.clear()
 	return ""
 
-
+@app.route('/profiles')
 @app.route('/profiles/<id>')
 def profile(id=None):
 	if id is not None and bson.objectid.ObjectId.is_valid(id):
@@ -270,7 +270,7 @@ def pins():
 def pins_delete():
 	incident_id = request.args.get('incident_id')
 	content.delete_one({"_id" : ObjectId(incident_id)})
-	feed.delete_one({"incident_id" : ObjectId(incident_id)})
+	feed.delete_many({"incident_id" : ObjectId(incident_id)})
 	return incident_id
 
 
