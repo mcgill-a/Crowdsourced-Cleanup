@@ -62,6 +62,13 @@ body {
     box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
     min-width: 65px; border-left: 0px;
 }
+.btn_refresh {
+    position: fixed;
+    border: none;
+    top: 10px;
+    left:303px;
+    z-index: 5;
+}
 
 .btn_heatmap:focus {
     outline: none;
