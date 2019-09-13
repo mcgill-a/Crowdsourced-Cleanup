@@ -10,7 +10,7 @@
 .profile {
     width: 100%;
     display:flex;
-    flex-flow: row;
+    flex-direction: row;
 }
 
 .details {
@@ -22,6 +22,15 @@
     border-radius: 5px;
     padding: 10px;
     width: 50%;
+    overflow-y: scroll;
+}
+
+.history-img {
+    border-radius: 5px;
+}
+
+.date {
+    font-size: 10px;
 }
 
 @media screen and (max-width: 450px) {
@@ -31,5 +40,15 @@
     }
     .profile {
         text-align: center;
+        flex-direction:column;
+    }
+    .details {
+        width: 100%;
+    }
+    .user-history {
+        width: 100%;
+        display:flex;
+        justify-content: center;
+        max-height: 100%;
     }
 }

@@ -41,12 +41,8 @@ function initMap() {
         // If we have a pin query, ajax the pin and center on its lat lon
         if (urlParams.get('pin')) {
             $.get("/pins?pin=" + urlParams.get('pin'), data => {
-                pos = {
-                    lat: data.lat,
-                    lng: data.lon
-                };
                 loadIncidents();
-                gmap.setCenter(pos);
+                goToPin(data._id);
                 
             });
             // Else center on Edinburgh Napier
