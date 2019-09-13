@@ -116,7 +116,9 @@ form .section input {
 	font-weight: normal;
 }
 .footer {
-	float: right;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
 }
 
 .footer button {
@@ -128,6 +130,18 @@ form .section input {
 	font-weight: bolder;
 	font-size: 11px;
 	margin-top: 3px;
+}
+
+.footer a.back {
+	background: rgb(0, 0, 0);
+	border: none;
+	color: white;
+	padding: 10px 20px;
+	border-radius: 30px;
+	font-weight: bolder;
+	font-size: 11px;
+	margin-top: 3px;
+	text-decoration: none;
 }
 
 form .section input:focus {
@@ -151,7 +165,8 @@ form .section input:focus {
 	}
 
 	.modal-popup-content .right {
-		width: 70%;
+		width: 90%;
+		padding: 30px;
 		border-radius: 10px 10px 10px 10px !important;
 	}
 

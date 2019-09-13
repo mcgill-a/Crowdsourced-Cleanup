@@ -176,11 +176,11 @@ function addMarker(incident) {
             '<li>Date Created: ' + 
             incident.date_created +
             '</li>' +
-            '<li>User:' +
+            '<li>Added by: ' +
             user.first_name + 
             '</li>' +
-            '<li>Cleanup Type:' +
-            incident.incident_type + 
+            '<li>Status: ' +
+            incident.status + 
             '</li>' +
             '</ul>' +
             '</div>' +
@@ -189,7 +189,7 @@ function addMarker(incident) {
             incident.image_before + 
             '/>' +
             '</div>' +
-            '<div class="marker_buttons"><button class="popup_btn clean" onclick="window.location.href = \'/cleanup?pin=' + incident._id +'\'"><p>CLEAN</p><i class="fas fa-clipboard-check"></i></button>'
+            '<div class="marker_buttons"><button onclick="clean()" class="popup_btn clean" onclick="window.location.href = \'/cleanup?pin=' + incident._id +'\'"><p>CLEAN</p><i class="fas fa-clipboard-check"></i></button>'
         
         if (logged_in_user != "" && (logged_in_user._id == incident.uploader) || logged_in_user.account_level == 100)
         {
@@ -241,4 +241,18 @@ function removemarker(){
 
     marker.setMap(null);
 
+}
+
+function clean(){
+    var marker = markers[openedMarkerID];
+
+    $.ajax({
+        async:false,
+        type: "POST",
+        url: "/pins/clean/?incident_id="+marker.dboid,
+        timeout: 60000,
+        success: function(data){
+            console.log("POST: CLEAN " + marker.dboid);
+        }
+    })
 }
