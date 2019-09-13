@@ -286,6 +286,11 @@ def pins_report():
 	return incident_id
 
 
+@app.route('/reports/', methods=['GET'])
+def reports():
+	## if level 100 then allow access
+	return render_template('reports.html')
+
 @app.route('/pins/clean/', methods=['POST'])
 def clean():
 	
