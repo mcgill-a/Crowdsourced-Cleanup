@@ -58,8 +58,20 @@
 	animation-name: modalOpen;
 	animation-duration: 1s;
 	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
+	flex-direction: row;
+}
+.alternate {
+	background-color: none;
+	margin: 10% auto;
+	max-width: 900px;
+	width: auto;
+	height: 600px;
+	box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2);
+	animation-name: modalOpen;
+	animation-duration: 1s;
+	display: flex !important;
+	flex-direction: column !important;
+	justify-content: space-between !important;
 }
 
 .modal-popup-content .footer {

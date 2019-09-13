@@ -25,7 +25,6 @@
     justify-content: center;
     width: 50%;
     overflow-y: scroll;
-    max-height: 30% !important;
 }
 
 #history-table {
