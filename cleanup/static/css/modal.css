@@ -132,8 +132,16 @@ form .section input {
 	margin-top: 3px;
 }
 
-.footer button.back {
+.footer a.back {
 	background: rgb(0, 0, 0);
+	border: none;
+	color: white;
+	padding: 10px 20px;
+	border-radius: 30px;
+	font-weight: bolder;
+	font-size: 11px;
+	margin-top: 3px;
+	text-decoration: none;
 }
 
 form .section input:focus {
