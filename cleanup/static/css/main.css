@@ -59,13 +59,30 @@ ul {
     align-items: flex-end;
 }
 
-.btnDelete {
-    background-color: rgb(194, 58, 58);
+.btn_popup {
+    background-color: #3498DB;
     color: white;
     padding: 0px 10px;
     height: 30px;
     border: none;
     border-radius: 3px;
+    margin-top: 10px;
+}
+
+.clean {
+    width: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.clean p {
+    margin: 0;
+}
+
+.btn_red {
+    background-color: rgb(194, 58, 58);
 }
 
 .btnSmall {

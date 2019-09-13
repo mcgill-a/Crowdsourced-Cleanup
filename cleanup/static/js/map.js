@@ -143,11 +143,11 @@ function addMarker(incident) {
             incident.image_before + 
             '/>' +
             '</div>' +
-            '<div class="marker_buttons"><button class="btnSmall" onclick="window.location.href = \'/cleanup?pin=' + incident._id +'\'">Cleanup</button>'
+            '<div class="marker_buttons"><button class="btn_popup clean" onclick="window.location.href = \'/cleanup?pin=' + incident._id +'\'"><p>CLEAN</p><i class="fas fa-clipboard-check"></i></button>'
         
         if (logged_in_user != "" && (logged_in_user._id == incident.uploader) || logged_in_user.account_level == 100)
         {
-            html += '<button onclick="removemarker()" class="btnDelete"><i class="fa fa-trash" aria-hidden="true"></i></button>'
+            html += '<button onclick="removemarker()" class="btn_popup btn_red"><i class="fa fa-trash" aria-hidden="true"></i></button>'
             console.log("MATCHED: " + logged_in_user._id + " == " + incident.uploader);
         }
         
