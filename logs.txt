@@ -2,10 +2,10 @@ Considering incident: 5d7ad894fed15ab9bf5a3fb4
 hour difference for incdent is 3
 difference is greater than 0
 Considering incident: 5d7adf35e03d44f63adef845
-hour difference for incdent is 2
+hour difference for incdent is 3
 difference is greater than 0
 Considering incident: 5d7ae078f5a61feff372f6a0
-hour difference for incdent is 2
+hour difference for incdent is 3
 difference is greater than 0
 Considering incident: 5d7ae18f9b531db1bed225fa
 hour difference for incdent is 2
@@ -29,8 +29,8 @@ Considering incident: 5d7ae90db465711605bfbd0b
 hour difference for incdent is 3
 difference is greater than 0
 Considering incident: 5d7aedc9ca3c6bfda8ebac01
-hour difference for incdent is 1
+hour difference for incdent is 2
 difference is greater than 0
 Considering incident: 5d7afc2b7b803b8db7207378
-hour difference for incdent is 1
+hour difference for incdent is 2
 difference is greater than 0

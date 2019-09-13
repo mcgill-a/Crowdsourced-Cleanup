@@ -48,12 +48,10 @@ function initMap() {
                 loadIncidents();
                 gmap.setCenter(pos);
                 for (var i=0; i < markers.length; i++){
-                    if (markers[i].position.lat == pos.lat && markers[i].position.lng == pos.lng) {
-                        console.log("same");
-                    }
-                    else{
-                        console.log(markers[i].position.lat);
-                        console.log(pos);
+                    if (markers[i].position.lat().toFixed(10) == pos.lat.toFixed(10) && markers[i].position.lng().toFixed(10) == pos.lng.toFixed(10)) {
+
+                        google.maps.event.trigger(markers[i], 'click')
+                    
                     }
                 }
             });
@@ -142,10 +140,7 @@ function addMarker(incident) {
         id: counter,
         dboid: incident._id
     });
-    var markerData = {
-        markerObj: marker,
-        markerID: incident._id
-    };
+    
     markers.push(marker);
     counter++;
     marker.addListener('click', function () {
