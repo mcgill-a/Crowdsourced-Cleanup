@@ -178,6 +178,18 @@ form .section input {
 	text-decoration: none;
 }
 
+.btn-back {
+	background: rgb(0, 0, 0);
+	border: none;
+	color: white;
+	padding: 10px 20px;
+	border-radius: 30px;
+	font-weight: bolder;
+	font-size: 11px;
+	margin-top: 3px;
+	text-decoration: none;
+}
+
 form .section input:focus {
 	border-bottom: 1px solid #2cd5ab;
 }
