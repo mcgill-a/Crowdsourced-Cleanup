@@ -236,16 +236,24 @@ def pins():
 		current['uploader'] = str(current['uploader'])
 		current['cleaner'] = str(current['cleaner'])
 		incidents.append(current)
-	# Find pin from given pin id in GET arguments
+	# Find pin from given pin id in GET arguments or user ID
 	pin_id = request.args.get('pin')
+	user_id = request.args.get('user')
 	# If a specific pin is requested...
 	if not pin_id == None:
 		# ... Search through the incidents until the right one is found
 		for incident in incidents:
-			if str(incident['_id']) == pin_id:
+			if incident['_id'] == pin_id:
 				return jsonify(incident)
 		# If none are found return 404
 		return '404'
+	elif not user_id == None:
+		# If a user ID is requested, return incidents related to the user
+		related = []
+		for incident in incidents:
+			if incident["uploader"] == user_id or incident['cleaner'] == user_id:
+				related.append(incident)
+		return jsonify(related)
 	else:
 		# If no specific pin is requested, return them all
 		return jsonify(incidents)
