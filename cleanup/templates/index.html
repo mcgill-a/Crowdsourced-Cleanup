@@ -6,6 +6,7 @@
     {% include 'includes/_messages.html' %}
 </div>
 <div id="map"></div>
+<button onclick="toggleHeatmap()" class="btn_heatmap">Heatmap</button>
 <div id="feedContainer">
     <table id="feed"></table>
 </div>
@@ -45,9 +46,6 @@
         </form>
     </div>
 </div>
-<div id="floating-panel">
-    <button onclick="toggleHeatmap()" >Toggle Heatmap</button>
-</div>>
 
 
 <script type="text/javascript" src="{{url_for('static', filename='js/map.js')}}"></script>

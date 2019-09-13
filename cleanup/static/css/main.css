@@ -23,6 +23,40 @@ body {
 
 }
 
+.btn_heatmap {
+    position: absolute;
+    border: none;
+    top: 10px;
+    left: 178px;
+    z-index: 150;
+    direction: ltr; 
+    overflow: hidden; 
+    text-align: center; 
+    height: 40px; 
+    display: table-cell; 
+    vertical-align: middle;
+    color: rgb(86, 86, 86); 
+    font-family: 'Roboto', 'Arial', 'sans-serif'; 
+    user-select: none;
+    font-size: 18px; 
+    background-color: rgb(255, 255, 255);
+    padding: 0px 17px;
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+    background-clip: padding-box;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+    min-width: 65px; border-left: 0px;
+}
+
+.btn_heatmap:focus {
+    outline: none;
+}
+
+.btn_heatmap:hover {
+    background-color: rgb(235, 235, 235);
+    color: rgb(0, 0, 0);
+}
+
 #floating-panel {
     position: absolute;
     top: 10px;
