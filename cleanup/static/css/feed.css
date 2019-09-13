@@ -36,18 +36,6 @@
     cursor: default;
 }
 
-.clickable {
-    display: inline-block;
-    background: #b8e7fa;
-    padding: 0px 5px 0px 5px;
-    border-radius: 5px;
-}
-
-.clickable:hover {
-    background: #f5fcff;
-    cursor: pointer;
-}
-
 @media screen and (max-width: 450px) {
 
     #feed {

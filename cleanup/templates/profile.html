@@ -20,8 +20,8 @@ $(document).ready(() => {
                     incident = data;
                 }
             });
-            resHTML += "<p>" + incident.date_created + ": " + (feed.type == "new_pin" ? "Added new pin" : "Cleaned up trash!") +
-                "</p><br/><img src='/" + incident.image_before + "'/></td></tr>";
+            resHTML += "<p class='date'>" + incident.date_created + "</p><a href='/?pin=" + feed.incident_id + "'><h4>" + (feed.type == "new_pin" ? "Added new pin" : "Cleaned up trash!") +
+                "</h4><img class='history-img' src='https://cleanup.alexmcgill.net/" + incident.image_before + "'/></a><hr/></td></tr>";
         });
         resHTML += "</tbody>";
         $("#history-table").html(resHTML);
