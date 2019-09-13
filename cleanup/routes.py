@@ -224,8 +224,11 @@ def get_current_user_id():
 def profile(id=None):
 	if id is not None and bson.objectid.ObjectId.is_valid(id):
 		user_profile = users.find_one({'_id' : ObjectId(id)})
-		if user_profile is not None:
-			return render_template('profile.html', user_profile=user_profile)
+		user_copy = copy.deepcopy(user_profile)
+		if user_copy is not None:
+			user_copy['_id'] = str(user_profile['_id'])
+			print("USER ID " + user_copy['_id'])
+			return render_template('profile.html', user_profile=user_copy)
 	return redirect('/')
 
 # Getting pin data for AJAX
@@ -267,7 +270,7 @@ def pins():
 def pins_delete():
 	incident_id = request.args.get('incident_id')
 	content.delete_one({"_id" : ObjectId(incident_id)})
-	feed.delete({"incident_id" : ObjectId(incident_id)})
+	feed.delete_many({"incident_id" : ObjectId(incident_id)})
 	return incident_id
 
 
@@ -364,13 +367,22 @@ def clean():
 
 @app.route('/feed', methods=['GET'])
 def getFeed():
+	user_id = request.args.get('user')
 	all_feed = []
 	for x in feed.find():
 		x['_id'] = str(x['_id'])
 		x['incident_id'] = str(x['incident_id'])
 		x['user_id'] = str(x['user_id'])
 		all_feed.append(x)
-	return jsonify(all_feed)
+	if not user_id == None:
+		# If a user ID is requested, return incidents related to the user
+		related = []
+		for feedEntry in all_feed:
+			if feedEntry['user_id'] == user_id:
+				related.append(feedEntry)
+		return jsonify(related)
+	else:
+		return jsonify(all_feed)
 
 
 # Redirect logged out users with error message
