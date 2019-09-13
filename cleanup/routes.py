@@ -106,6 +106,7 @@ def login():
 				session['email'] = result.get('email')
 				session['id'] = str(result.get('_id'))
 				session['fullname'] = result.get('first_name') + " " + result.get('last_name')
+				session['account_level'] = result.get('account_level')
 				#flash('You are now logged in', 'success')
 				print(session.get('email') + " has logged in")
 				return redirect(url_for('index'))
@@ -287,9 +288,21 @@ def pins_report():
 
 
 @app.route('/reports/', methods=['GET'])
-def reports():
+def report_page():
 	## if level 100 then allow access
-	return render_template('reports.html')
+
+	all_reports = []
+	cursor = reports.find()
+	for current in cursor:
+		all_reports.append(current)
+	
+	if session.get('logged_in'):
+		result = users.find_one({'_id': ObjectId(session.get('id'))})
+		if result is not None:
+			if result['account_level'] == 100:
+				return render_template('reports.html', all_reports=all_reports)
+	flash("Access denied", "danger")
+	return redirect('/')
 
 @app.route('/pins/clean/', methods=['POST'])
 def clean():

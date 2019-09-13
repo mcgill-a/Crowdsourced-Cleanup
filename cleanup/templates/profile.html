@@ -5,17 +5,29 @@
 
 <script type="text/javascript" src="{{url_for('static', filename='js/feed.js')}}"></script>
 <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/profile.css')}}">
-<div class="flashes">
-    {% include 'includes/_messages.html' %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/modal.css')}}">
+<div class="page-background">
+    <div id="userModal" class="modal-popup" style="display: block;">
+        <div class="center_modal">
+            <div class="modal-popup-content white-bg larger">
+                <div class="flashes">
+                    {% include 'includes/_messages.html' %}
+                </div>
+                <div class="profile">
+                    {% if user_profile.account_level == 100 %}
+                    <p>Admin</p>
+                    {% endif %}
+                    <h1>{{user_profile.first_name}} {{user_profile.last_name}}</h1>
+                    <h3>Score: {{user_profile.score}}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="profile">
-    {% if user_profile.account_level == 100 %}
-        <p>Admin</p>
-    {% endif %}
-    <h1>{{user_profile.first_name}} {{user_profile.last_name}}</h1>
-    <h3>Score: {{user_profile.score}}</h3>
-    
+
+
+</div>
 </div>
 
 {% endblock %}

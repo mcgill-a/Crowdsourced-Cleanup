@@ -9,6 +9,26 @@
     background-position: center center; 
 }
 
+.white-bg {
+	background: white;
+}
+
+.larger {
+	width: 90% !important;
+	height: 70% !important;
+	margin: auto !important;
+	border-radius: 10px !important;
+}
+
+.center_modal {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+}
+
 .modal-popup {
 	text-align: left;
 	display: none;
@@ -168,6 +188,10 @@ form .section input:focus {
 		width: 90%;
 		padding: 30px;
 		border-radius: 10px 10px 10px 10px !important;
+	}
+
+	.larger {
+		height: 80% !important;
 	}
 
 }
