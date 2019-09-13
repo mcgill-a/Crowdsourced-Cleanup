@@ -114,8 +114,19 @@ button.dropbtn {
 .marker_buttons {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: flex-end;
+}
+
+.marker_buttons button.report {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+}
+
+.marker_buttons button.report p {
+    margin: 0 6px 0 0;
 }
 
 .popup_img {
@@ -139,6 +150,17 @@ button.dropbtn {
     justify-content: space-between;
     align-items: center;
 }
+
+.report {
+    background-color: rgb(194, 58, 58);
+    width: 85px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0;
+}
+
 
 .clean p {
     margin: 0;

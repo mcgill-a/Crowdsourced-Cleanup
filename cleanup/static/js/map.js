@@ -193,11 +193,17 @@ function addMarker(incident) {
             '/>' +
             '</div>'
         
+        // If incident is available, show clean button
         if (incident.status == "Available")
         {
             html += '<div class="marker_buttons"><button onclick="clean()" class="popup_btn clean" onclick="window.location.href = \'/cleanup?pin=' + incident._id +'\'"><p>CLEAN</p><i class="fas fa-clipboard-check"></i></button>'
         }
-        
+        // If incident isn't their own post, show report button
+        if (logged_in_user != "" && (logged_in_user._id != incident.uploader))
+        {
+            html += '<div class="marker_buttons"><button onclick="report()" class="popup_btn report" onclick="window.location.href = \'/cleanup?pin=' + incident._id +'\'"><p>REPORT</p><i class="fas fa-flag"></i></button>'
+        }
+        // If user posted the incident or the user is an admin, show delete button
         if (logged_in_user != "" && (logged_in_user._id == incident.uploader) || logged_in_user.account_level == 100)
         {
             html += '<button onclick="removemarker()" class="popup_btn btn_red"><i class="fa fa-trash" aria-hidden="true"></i></button>'
@@ -260,6 +266,20 @@ function clean(){
         timeout: 60000,
         success: function(data){
             console.log("POST: CLEAN " + marker.dboid);
+        }
+    })
+}
+
+function report(){
+    var marker = markers[openedMarkerID];
+
+    $.ajax({
+        async:false,
+        type: "POST",
+        url: "/pins/report/?incident_id="+marker.dboid,
+        timeout: 60000,
+        success: function(data){
+            console.log("POST: REPORT " + marker.dboid);
         }
     })
 }

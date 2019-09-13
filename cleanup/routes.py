@@ -9,7 +9,7 @@ from os.path import join
 from bson.objectid import ObjectId
 from functools import wraps
 from flask import Flask, render_template, request, redirect, jsonify, session, abort, flash, url_for
-from cleanup import app, login_manager, users, content, feed, totals
+from cleanup import app, login_manager, users, content, feed, totals, reports
 from operator import itemgetter
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import configparser, logging, os, json, random, re, string, datetime, bcrypt, urllib, hashlib, bson, math
@@ -216,6 +216,14 @@ def get_current_user_id():
 	return ""
 
 
+@app.route('/profiles/<id>')
+def profile(id=None):
+	if id is not None and bson.objectid.ObjectId.is_valid(id):
+		user_profile = users.find_one({'_id' : ObjectId(id)})
+		if user_profile is not None:
+			return render_template('profile.html', user_profile=user_profile)
+	return redirect('/')
+
 # Getting pin data for AJAX
 @app.route('/pins/', methods=['GET'])
 def pins():
@@ -248,6 +256,33 @@ def pins_delete():
 	incident_id = request.args.get('incident_id')
 	content.delete_one({"_id" : ObjectId(incident_id)})
 	feed.delete_one({"incident_id" : ObjectId(incident_id)})
+	return incident_id
+
+
+@app.route('/pins/report/', methods=['POST'])
+def pins_report():
+	incident_id = request.args.get('incident_id')
+	if session.get('logged_in'):
+		result = users.find_one({'_id': ObjectId(session.get('id'))})
+		if result is not None:
+			prev_reported = False
+			cursor = reports.find({'incident_id' : ObjectId(incident_id)})
+			for record in cursor:
+				if record['reporter'] == result['_id']:
+					prev_reported = True
+			if not prev_reported:
+				new_report = {
+				'incident_id' : ObjectId(incident_id),
+				'reporter' : result['_id'],
+				'date' : datetime.datetime.now(),
+				'status' : "Unresolved"
+				}
+				reports.insert_one(new_report)
+				flash("Reported post successfully", "success")
+			else:
+				flash("You already reported this post", "danger")
+		return redirect('/')
+
 	return incident_id
 
 

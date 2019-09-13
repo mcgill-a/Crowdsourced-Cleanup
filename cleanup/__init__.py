@@ -30,5 +30,6 @@ users = mongo.db.users
 content = mongo.db.content
 feed = mongo.db.feed
 totals = mongo.db.totals
+reports = mongo.db.reports
 
 from cleanup import routes

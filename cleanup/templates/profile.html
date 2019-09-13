@@ -9,8 +9,13 @@
     {% include 'includes/_messages.html' %}
 </div>
 
-<table id="profileTable">
-    <tr><th>{%  %}</th></tr>
-</table>
+<div class="profile">
+    {% if user_profile.account_level == 100 %}
+        <p>Admin</p>
+    {% endif %}
+    <h1>{{user_profile.first_name}} {{user_profile.last_name}}</h1>
+    <h3>Score: {{user_profile.score}}</h3>
+    
+</div>
 
 {% endblock %}
