@@ -20,6 +20,13 @@
 	border-radius: 10px !important;
 }
 
+.larger-table {
+	width: auto !important;
+	height: 70% !important;
+	margin: auto !important;
+	border-radius: 10px !important;
+}
+
 .center_modal {
 	display: flex;
 	flex-direction: row;
@@ -44,7 +51,8 @@
  .modal-popup-content {
 	background-color: none;
 	margin: 10% auto;
-	width: 900px;
+	max-width: 900px;
+	width: auto;
 	height: 600px;
 	box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2);
 	animation-name: modalOpen;
