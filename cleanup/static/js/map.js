@@ -1,4 +1,4 @@
-var gmap, pos, defaultwindow;
+var gmap, pos, defaultwindow, heatmap;
 var markers = []; 
 var counter = 0;
 var openedMarkerID;
@@ -8,7 +8,7 @@ function initMap() {
 
     })
 
-
+   
     gmap = new google.maps.Map(document.getElementById('map'), {
         center: {
             lat: -34.397,
@@ -16,6 +16,11 @@ function initMap() {
         },
         zoom: 15
     });
+
+    heatmap = new google.maps.visualization.HeatmapLayer({
+        data: getPoints(),
+        map: gmap
+    })
    
     infowindow.setContent('<div>' +
         '<ul>' +
@@ -82,6 +87,31 @@ function loadIncidents()
     });
 }
 
+function toggleHeatmap(){
+    console.log("clicked");
+    heatmap.setMap(heatmap.getMap() ? null : gmap);
+}
+
+function getPoints() {
+    var markers;
+    var mapPoints = []
+    $.ajax({
+        async:false,
+        type:"GET",
+        url:"/pins",
+        timeout: 60000,
+        success: function(data){
+            markers = data;
+            for (i=0; i < markers.length; i++){
+                mapPoints.push(new google.maps.LatLng(markers[i].lat, markers[i].lon))
+            }
+        }
+    })
+    
+   
+    console.log(mapPoints);
+    return mapPoints
+}
 
 function addMarker(incident) {
     
