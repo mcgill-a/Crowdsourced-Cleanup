@@ -12,6 +12,15 @@ body {
     max-height: 100%;
     margin: 0;
     padding: 0;
+    text-align: center;
+}
+
+.flashes.main {
+    position: absolute;
+    bottom: 40px;
+    display: inline-block;
+    z-index: 100;
+
 }
 
 #floating-panel {
@@ -166,6 +175,7 @@ ul {
 .popup_upload .alert p {
     height: 20px;
 }
+
 .popup_upload a {
     padding: 10px;
 }

@@ -334,12 +334,11 @@ def upload():
 					feed.insert(feedObject)
 					flash("Image uploaded successfully", "success")
 				return redirect('/')
-
 			elif request.method == 'GET' and user is not None:
 				upload_form.image.data = ""
-
-			
-			return render_template('upload.html', current_user=current_user, upload_form=upload_form)
+			elif not upload_form.validate():
+				flash("File type must be .JPG", "danger")
+			return redirect('/')
 		else:
 			flash("Access restricted. You do not have permission to do that", 'danger')
 			return redirect(url_for('index'))

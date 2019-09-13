@@ -1,3 +1,10 @@
+$("document").ready(function(){
+    setTimeout(function(){
+        $(".main").remove();
+    }, 5000 ); // 5 secs
+
+});
+
 function myFunction(){
     document.getElementById("myDropdown").classList.toggle("show");
 }

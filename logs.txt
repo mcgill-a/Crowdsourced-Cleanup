@@ -1,8 +1,26 @@
-Considering incident: 5d7aa9f2f63a325ebf6db111
-hour difference for incdent is 4
-difference is greater than 0
-Considering incident: 5d7ad88f544d72a28c67002b
+Considering incident: 5d7ad894fed15ab9bf5a3fb4
 hour difference for incdent is 1
 difference is greater than 0
-Considering incident: 5d7ad894fed15ab9bf5a3fb4
+Considering incident: 5d7adf35e03d44f63adef845
+hour difference for incdent is 1
+difference is greater than 0
+Considering incident: 5d7ae078f5a61feff372f6a0
+hour difference for incdent is 0
+Considering incident: 5d7ae18f9b531db1bed225fa
+hour difference for incdent is 0
+Considering incident: 5d7ae1ef2a6b2c970496878c
+hour difference for incdent is 0
+Considering incident: 5d7ae22fc15645f34b0be641
+hour difference for incdent is 0
+Considering incident: 5d7ae26a558129d13f5e3895
+hour difference for incdent is 0
+Considering incident: 5d7ae2e3a3ba71c06d04e009
+hour difference for incdent is 0
+Considering incident: 5d7ae7dab465711605bfbd09
+hour difference for incdent is 1
+difference is greater than 0
+Considering incident: 5d7ae90db465711605bfbd0b
+hour difference for incdent is 1
+difference is greater than 0
+Considering incident: 5d7aedc9ca3c6bfda8ebac01
 hour difference for incdent is 0

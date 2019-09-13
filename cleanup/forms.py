@@ -27,4 +27,4 @@ class SignupForm(FlaskForm):
 	confirm = PasswordField('confirm')
 
 class UploadForm(FlaskForm):
-	image = FileField('Image Uploader', validators=[FileAllowed(['jpg', 'png'])])
+	image = FileField('Image Uploader', validators=[FileAllowed(['jpg'])])
