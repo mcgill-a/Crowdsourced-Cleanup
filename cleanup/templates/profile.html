@@ -3,7 +3,33 @@
 
 {% block content %}
 
-<script type="text/javascript" src="{{url_for('static', filename='js/feed.js')}}"></script>
+<script type="text/javascript">
+$(document).ready(() => {
+
+    $.get('/feed?user={{user_profile._id}}', data => {
+        resHTML = "<tbody>";
+        data.forEach(feed => {
+            resHTML += "<tr><td class='historyEntry'>";
+            var incident = null;
+            $.ajax({
+                async:false,
+                type: "GET",
+                url: "/pins?pin=" + feed.incident_id,
+                timeout: 60000,
+                success: function(data){
+                    incident = data;
+                }
+            });
+            resHTML += "<p>" + incident.date_created + ": " + (feed.type == "new_pin" ? "Added new pin" : "Cleaned up trash!") +
+                "</p><br/><img src='/" + incident.image_before + "'/></td></tr>";
+        });
+        resHTML += "</tbody>";
+        $("#history-table").html(resHTML);
+    });
+
+
+});
+</script>
 <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/profile.css')}}">
 <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/modal.css')}}">
 <div class="page-background">
