@@ -23,6 +23,13 @@ body {
 
 }
 
+.report-table {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    padding: 30px 10px;
+}
+
 .stats {
     width: 120px;
     height: 38px;
