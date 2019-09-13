@@ -59,7 +59,11 @@ ul {
     align-items: flex-end;
 }
 
-.btn_popup {
+.popup_img {
+    margin-top: 5px;
+}
+
+.popup_btn {
     background-color: #3498DB;
     color: white;
     padding: 0px 10px;

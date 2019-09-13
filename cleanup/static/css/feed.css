@@ -7,11 +7,14 @@
     padding:10px;
     min-width: 200px;
     min-height:100px;
+    max-height: 225px;
+    overflow-y: scroll;
 }
 
 #feed {
     border-collapse: separate;
     border-spacing: 0px 5px;
+    max-height: 100%;
 }
 
 .feedEntry {
@@ -42,6 +45,7 @@
         min-width: 200px;
         overflow: scroll;
         text-align: center;
+        max-height: 160px;
     }
 
     #feed {

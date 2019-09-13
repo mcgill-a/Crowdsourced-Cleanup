@@ -235,6 +235,13 @@ def pins():
 		return jsonify(incidents)
 
 
+# Getting pin data for AJAX
+@app.route('/pins/delete/', methods=['POST'])
+def pins_delete():
+	incident_id = request.args.get('incident_id')
+	print(incident_id)
+	return incident_id
+
 @app.route('/feed', methods=['GET'])
 def getFeed():
 	all_feed = []

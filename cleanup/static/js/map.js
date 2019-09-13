@@ -98,7 +98,8 @@ function addMarker(incident) {
         animation: google.maps.Animation.DROP,
         title: "Trash",
         icon: '/static/resources/default/markers/marker_a.png',
-        id: counter
+        id: counter,
+        dboid: incident._id
     });
     markers.push(marker)
     counter++;
@@ -139,16 +140,15 @@ function addMarker(incident) {
             '</ul>' +
             '</div>' +
             '<div>' +
-            '<img src=' + 
+            '<img class="popup_img" src=' + 
             incident.image_before + 
             '/>' +
             '</div>' +
-            '<div class="marker_buttons"><button class="btn_popup clean" onclick="window.location.href = \'/cleanup?pin=' + incident._id +'\'"><p>CLEAN</p><i class="fas fa-clipboard-check"></i></button>'
+            '<div class="marker_buttons"><button class="popup_btn clean" onclick="window.location.href = \'/cleanup?pin=' + incident._id +'\'"><p>CLEAN</p><i class="fas fa-clipboard-check"></i></button>'
         
         if (logged_in_user != "" && (logged_in_user._id == incident.uploader) || logged_in_user.account_level == 100)
         {
-            html += '<button onclick="removemarker()" class="btn_popup btn_red"><i class="fa fa-trash" aria-hidden="true"></i></button>'
-            console.log("MATCHED: " + logged_in_user._id + " == " + incident.uploader);
+            html += '<button onclick="removemarker()" class="popup_btn btn_red"><i class="fa fa-trash" aria-hidden="true"></i></button>'
         }
         
         html += "</div>"
@@ -183,5 +183,17 @@ function addRandomMarker(colour) {
 
 function removemarker(){
     var marker = markers[openedMarkerID];
+
+    $.ajax({
+        async:false,
+        type: "POST",
+        url: "/pins/delete/?incident_id="+marker.dboid,
+        timeout: 60000,
+        success: function(data){
+            console.log("POST: DELETE " + marker.dboid);
+        }
+    })
+
     marker.setMap(null);
+
 }
