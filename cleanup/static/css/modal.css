@@ -116,7 +116,9 @@ form .section input {
 	font-weight: normal;
 }
 .footer {
-	float: right;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
 }
 
 .footer button {
@@ -128,6 +130,10 @@ form .section input {
 	font-weight: bolder;
 	font-size: 11px;
 	margin-top: 3px;
+}
+
+.footer button.back {
+	background: rgb(0, 0, 0);
 }
 
 form .section input:focus {
