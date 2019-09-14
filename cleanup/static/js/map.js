@@ -202,30 +202,44 @@ function addMarker(incident) {
             }
 
         })
-        var html = '<div>' +
+        var html = '<div ' + (incident.status == "Available" ? 'class="available"' : 'class="cleaned"') +' >' + '<div>' +
             '<ul>' +
-            '<li>' + 
+            '<li><p style="font-size:10px;">' + 
             incident.date_created +
-            '</li>' +
-            '<li>Added by: ' +
+            '</p></li>' +
+            '<li>Added by: <div class="clickable" onclick="window.location.href=\'/profiles/' + user._id + '\'">' +
             user.first_name + 
-            '</li>' +
-            '<li>Status: ' +
+            '</div></li><br/>' +
+            '<li><b>' +
             incident.status + 
-            '</li>' +
-            '<li>Value: ' +
-            incident.value + 
-            '</li>' +
+            '</b></li>' +
+            '<li>';
+        
+        if (incident.status == "Available") {
+            html += incident.value + ' points';
+        } else {
+            $.ajax({
+                async:false,
+                type: "GET",
+                url: "/users/?user=" + incident.cleaner,
+                timeout: 60000,
+                success: function(cleaner){
+                    html += 'by <div class="clickable" onclick="window.location.href=\'/profiles/' + cleaner._id + '\'">' + cleaner.first_name + '</div>';
+                }
+            });
+        }
+        
+        html += '</li>' +
             '</ul>' +
-            '</div>' +
+            '</div><br/>' +
             '<div>' +
-            '<img class="popup_img" src=' + 
+            '<img class="popup_img" src="http://cleanup.alexmcgill.net/' + 
             incident.image_before + 
-            '/>' +
+            '"/>' +
             '</div><div class="marker_buttons">';
 
         
-        // If incident is available, show clean button
+        // If incident is available, show clean button 
         if (incident.status == "Available")
         {
             html += '<button onclick="clean()" class="popup_btn clean" onclick="window.location.href = \'/cleanup?pin=' + incident._id +'\'"><p>CLEAN</p><i class="fas fa-clipboard-check"></i></button>'
@@ -241,7 +255,7 @@ function addMarker(incident) {
             html += '<button onclick="removemarker()" class="popup_btn btn_red"><i class="fa fa-trash" aria-hidden="true"></i></button>'
         }
         
-        html += "</div>"
+        html += "</div></div>"
 
         infowindow.setContent(html);
         infowindow.open(gmap, marker);

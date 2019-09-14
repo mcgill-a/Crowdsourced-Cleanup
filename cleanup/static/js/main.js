@@ -9,6 +9,20 @@ function myFunction(){
     document.getElementById("myDropdown").classList.toggle("show");
 }
 
+var navToggle = false;
+
+function toggleNav () {
+    if (screen.width > 570)
+        return;
+    if (!navToggle) {
+        $('.nav-menu').css("display", "flex");
+        navToggle = true;
+    } else {
+        $('.nav-menu').css("display", "none");
+        navToggle = false;
+    }
+}
+
 /*
 
 window.onclick = function(event){

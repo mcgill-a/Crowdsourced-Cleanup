@@ -219,7 +219,7 @@ def get_current_user_id():
 			session.clear()
 	return ""
 
-@app.route('/profiles')
+@app.route('/profiles/')
 @app.route('/profiles/<id>')
 def profile(id=None):
 	if id is not None and bson.objectid.ObjectId.is_valid(id):
@@ -229,7 +229,14 @@ def profile(id=None):
 			user_copy['_id'] = str(user_profile['_id'])
 			print("USER ID " + user_copy['_id'])
 			return render_template('profile.html', user_profile=user_copy)
+	elif session.get('logged_in'):
+		result = users.find_one({'_id': ObjectId(session.get('id'))})
+		if result is not None:
+			result['_id'] = str(result['_id'])
+			result['password'] = str(result['password'])
+			return render_template('profile.html', user_profile=result)
 	return redirect('/')
+	
 
 # Getting pin data for AJAX
 @app.route('/pins/', methods=['GET'])
