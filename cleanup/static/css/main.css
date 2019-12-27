@@ -69,6 +69,45 @@ body {
     box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
     min-width: 65px; border-left: 0px;
 }
+
+.title {
+    position: fixed;
+    top: 70px;
+    left: 20px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+}
+
+#logo {
+    width: 75px;
+    margin-right: 10px;
+}
+
+.title-text {
+    /*font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;*/
+    font-size: 20px;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    padding-left: 10px;
+    font-size: 30px;
+    border-left: thin solid #000000;
+    max-height: 100%;
+    text-align: center;
+}
+
+.nav:hover {
+    cursor: pointer;
+}
+
 .btn_refresh {
     position: fixed;
     border: none;
@@ -145,6 +184,7 @@ button.dropbtn {
 
 .popup_img {
     margin-top: 5px;
+    border-radius: 5px;
 }
 
 .popup_btn {
@@ -368,6 +408,18 @@ input[type=text] {
     cursor: pointer;
 }
 
+.available {
+    background: #ff8888;
+    padding: 5px;
+    border-radius: 2px;
+}
+
+.cleaned {
+    background: #88ff88;
+    padding: 5px;
+    border-radius: 2px;
+}
+
 @media screen and (max-width: 600px) {
     .search-container {
         justify-content: flex-start;
@@ -395,4 +447,23 @@ input[type=text] {
         padding: 5px;
     }
 
+}
+
+@media screen and (max-width: 570px) {
+    .title-text {
+        display: none;
+    }
+
+    .title {
+        align-items: flex-start;
+    }
+
+    #logo {
+        margin-right: 0px;
+        width: 40px;
+    }
+
+    .nav-menu {
+        display: none;
+    }
 }
