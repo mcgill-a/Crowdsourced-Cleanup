@@ -1,3 +1,3 @@
-# CrowdsourcedCleanup
-Hackathon repo
-TEST
+# Crowdsourced Cleanup
+
+https://cleanup.alexmcgill.net/
