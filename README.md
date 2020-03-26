@@ -41,7 +41,7 @@ Home (Logged in)  |  Upload |  Map Marker  |
 :-------------------------:|:------------------------:|:-------------------------:
 <img src="demo/mobile/4.jpg" width="80%">  |  <img src="demo/mobile/5.jpg" width="80%"> |  <img src="demo/mobile/6.jpg" width="80%">
 
-Activiy Feed            |  |            |
+Activity Feed            |  |            |
 :-------------------------:|:------------------------:|:-------------------------:
 <img src="demo/mobile/7.jpg" width="80%">  |  <img src="https://i.imgur.com/B6eSH9f.jpg" width="80%"> |  <img src="https://i.imgur.com/B6eSH9f.jpg" width="80%">
 
