@@ -10,7 +10,7 @@ decorator==4.4.0
 dnspython==1.16.0
 dominate==2.3.5
 enum34==1.1.6
-eventlet==0.24.1
+eventlet==0.31.0
 exif==0.8.1
 Flask==1.0.2
 Flask-Bcrypt==0.7.1
